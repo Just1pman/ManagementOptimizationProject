@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <header class="container">
+        <div class="row">
+            <nav>
+                <ul class="col-sm">
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Contact</li>
+                </ul>
+
+                <ul class="col-sm">
+                    <li>log in</li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {# <a class="btn-small" href="{{ path('user_index') }}">log in </a> #}
+
+    {# {{ dump() }} #}
+    <ul>
+
+    {# <h1>Hello {{ controller_name }}! ✅</h1> #}
+
+    {# This friendly message is coming from: #}
+    {# <ul> #}
+    {# <li>Your controller at <code><a href="{{ '/var/www/html/symfony/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li> #}
+    {# <li>Your template at <code><a href="{{ '/var/www/html/symfony/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li> #}
+    {# </ul> #}
+
+
+{% endblock %}

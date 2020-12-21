@@ -16,7 +16,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "materialize-css": "^1.0.0-rc.2",
+        "@popperjs/core": "^2.6.0",
+        "bootstrap": "^5.0.0-beta1",
+        "jquery": "^3.5.1",
         "node-sass": "^4.14.1",
         "sass-loader": "^9.0.1"
     }
