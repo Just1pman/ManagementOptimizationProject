@@ -4,7 +4,6 @@
 
 {% block body %}
     <h1>User index</h1>
-
     <table class="table">
         <thead>
             <tr>
@@ -16,6 +15,7 @@
             </tr>
         </thead>
         <tbody>
+        {% dump %}
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>

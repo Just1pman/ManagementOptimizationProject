@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SpokenLanguage{% endblock %}
+
+{% block body %}
+    <h1>SpokenLanguage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ spoken_language.id }}</td>
+            </tr>
+            <tr>
+                <th>Language</th>
+                <td>{{ spoken_language.language }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ spoken_language.level }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('spoken_language_index') }}">back to list</a>
+
+    <a href="{{ path('spoken_language_edit', {'id': spoken_language.id}) }}">edit</a>
+
+    {{ include('spoken_language/_delete_form.html.twig') }}
+{% endblock %}

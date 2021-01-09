@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SpokenLanguage{% endblock %}
+
+{% block body %}
+    <h1>Create new SpokenLanguage</h1>
+
+    {{ include('spoken_language/_form.html.twig') }}
+
+    <a href="{{ path('spoken_language_index') }}">back to list</a>
+{% endblock %}

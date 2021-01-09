@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CareerSummary index{% endblock %}
+
+{% block body %}
+    <h1>CareerSummary index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>Position</th>
+                <th>JobDescription</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for career_summary in career_summaries %}
+            <tr>
+                <td>{{ career_summary.id }}</td>
+                <td>{{ career_summary.dateStart ? career_summary.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ career_summary.dateEnd }}</td>
+                <td>{{ career_summary.position }}</td>
+                <td>{{ career_summary.jobDescription }}</td>
+                <td>
+                    <a href="{{ path('career_summary_show', {'id': career_summary.id}) }}">show</a>
+                    <a href="{{ path('career_summary_edit', {'id': career_summary.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('career_summary_new') }}">Create new</a>
+{% endblock %}

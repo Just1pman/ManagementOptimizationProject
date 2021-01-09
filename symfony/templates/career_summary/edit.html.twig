@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CareerSummary{% endblock %}
+
+{% block body %}
+    <h1>Edit CareerSummary</h1>
+
+    {{ include('career_summary/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('career_summary_index') }}">back to list</a>
+
+    {{ include('career_summary/_delete_form.html.twig') }}
+{% endblock %}

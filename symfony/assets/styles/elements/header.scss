@@ -1,0 +1,40 @@
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  display: block;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+  color: #212529;
+}
+
+.button {
+  display: block;
+  padding: 5px 15px;
+
+  text-align: center;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #212529;
+}
+
+.button--login {
+  border: 1px solid #212529;
+  border-radius: 10px;
+
+}
+
+

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PersonalData index{% endblock %}
+
+{% block body %}
+    <h1>PersonalData index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateOfBirth</th>
+                <th>MaritalStatus</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>About</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for personal_datum in personal_datas %}
+            <tr>
+                <td>{{ personal_datum.id }}</td>
+                <td>{{ personal_datum.dateOfBirth ? personal_datum.dateOfBirth|date('Y-m-d') : '' }}</td>
+                <td>{{ personal_datum.maritalStatus }}</td>
+                <td>{{ personal_datum.gender }}</td>
+                <td>{{ personal_datum.phone }}</td>
+                <td>{{ personal_datum.about }}</td>
+                <td>
+                    <a href="{{ path('personal_data_show', {'id': personal_datum.id}) }}">show</a>
+                    <a href="{{ path('personal_data_edit', {'id': personal_datum.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('personal_data_new') }}">Create new</a>
+{% endblock %}

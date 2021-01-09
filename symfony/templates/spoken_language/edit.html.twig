@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SpokenLanguage{% endblock %}
+
+{% block body %}
+    <h1>Edit SpokenLanguage</h1>
+
+    {{ include('spoken_language/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('spoken_language_index') }}">back to list</a>
+
+    {{ include('spoken_language/_delete_form.html.twig') }}
+{% endblock %}

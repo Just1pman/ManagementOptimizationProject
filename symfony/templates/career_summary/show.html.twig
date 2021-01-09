@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CareerSummary{% endblock %}
+
+{% block body %}
+    <h1>CareerSummary</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ career_summary.id }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ career_summary.dateStart ? career_summary.dateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ career_summary.dateEnd }}</td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>{{ career_summary.position }}</td>
+            </tr>
+            <tr>
+                <th>JobDescription</th>
+                <td>{{ career_summary.jobDescription }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('career_summary_index') }}">back to list</a>
+
+    <a href="{{ path('career_summary_edit', {'id': career_summary.id}) }}">edit</a>
+
+    {{ include('career_summary/_delete_form.html.twig') }}
+{% endblock %}

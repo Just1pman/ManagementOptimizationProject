@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SpokenLanguage index{% endblock %}
+
+{% block body %}
+    <h1>SpokenLanguage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Language</th>
+                <th>Level</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for spoken_language in spoken_languages %}
+            <tr>
+                <td>{{ spoken_language.id }}</td>
+                <td>{{ spoken_language.language }}</td>
+                <td>{{ spoken_language.level }}</td>
+                <td>
+                    <a href="{{ path('spoken_language_show', {'id': spoken_language.id}) }}">show</a>
+                    <a href="{{ path('spoken_language_edit', {'id': spoken_language.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('spoken_language_new') }}">Create new</a>
+{% endblock %}

@@ -3,19 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="project management in high technology business">
+    <meta name="keywords" content="management, business, it">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png">
+        {{ encore_entry_link_tags('styles/app') }}
     {% endblock %}
 </head>
+
 <body>
 {% block body %}
-    <div class="container">
+    <div class="wrap">
+        {% block header %}
+            {{ include('elements/header.html.twig') }}
+        {% endblock header %}
+
         {% block content %}
 
-
-        {% endblock %}
+        {% endblock content %}
     </div>
-{% endblock %}
+
+    {% block footer %}
+        {{ include('elements/footer.html.twig') }}
+    {% endblock footer %}
+
+{% endblock body %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
