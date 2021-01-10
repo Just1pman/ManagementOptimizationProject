@@ -29,6 +29,11 @@ class ProjectRole
      */
     private $projects;
 
+    public function __toString()
+    {
+        return $this->title;
+    }
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();

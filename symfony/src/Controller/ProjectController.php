@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
     /**
-     * Require ROLE_ADMIN for only this controller method.
+     * Require ROLE_MANAGER for only this controller method.
      * @IsGranted("ROLE_MANAGER")
      */
     public function adminDashboard()

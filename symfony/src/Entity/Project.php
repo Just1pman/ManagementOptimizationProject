@@ -35,7 +35,7 @@ class Project
     private $periodStart;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="date")
      */
     private $periodEnd;
 
@@ -100,12 +100,12 @@ class Project
         return $this;
     }
 
-    public function getPeriodEnd(): ?string
+    public function getPeriodEnd(): ?\DateTimeInterface
     {
         return $this->periodEnd;
     }
 
-    public function setPeriodEnd(string $periodEnd): self
+    public function setPeriodEnd(\DateTimeInterface $periodEnd): self
     {
         $this->periodEnd = $periodEnd;
 

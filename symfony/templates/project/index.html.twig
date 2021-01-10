@@ -24,7 +24,7 @@
                 <td>{{ project.internalTitle }}</td>
                 <td>{{ project.externalTitle }}</td>
                 <td>{{ project.periodStart ? project.periodStart|date('Y-m-d') : '' }}</td>
-                <td>{{ project.periodEnd }}</td>
+                <td>{{ project.periodEnd ? project.periodEnd|date('Y-m-d') : '' }}</td>
                 <td>{{ project.description }}</td>
                 <td>
                     <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
