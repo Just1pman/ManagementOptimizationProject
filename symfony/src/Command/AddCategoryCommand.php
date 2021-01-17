@@ -1,76 +1,67 @@
 <?php
 
-
 namespace App\Command;
 
-
-use App\Entity\Category;
-use Doctrine\ORM\EntityManagerInterface;
-use League\Csv\Reader;
+use App\Service\SkillCategoryService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class AddCategoryCommand extends Command
 {
-    protected static $defaultName = 'app:add-category';
+    protected static $defaultName = 'app:import-category';
 
     /**
-     * @var EntityManagerInterface
+     * @var SkillCategoryService
      */
-    private $em;
+    private $categoryService;
+    /**
+     * @var String
+     */
+    private $uploads_folder;
+
+    /**
+     * ImportSkillCategoryCommand constructor.
+     * @param SkillCategoryService $categoryService
+     * @param string $uploads_folder
+     */
+
+    public function __construct(
+        string $uploads_folder,
+        SkillCategoryService $categoryService
+    )
+    {
+        parent::__construct();
+
+        $this->categoryService = $categoryService;
+        $this->uploads_folder = $uploads_folder;
+    }
 
     protected function configure()
     {
         $this
-            // the short description shown while running "php bin/console list"
-            ->setDescription('Adds categories from the CSV to the database')
-
-            // the full command description shown when running the command with
-            // the "--help" option
-            ->setHelp('This command allows you to add to the database the categories defined in the csv file');
+            ->setDescription('Add a short description for your command')
+            ->addOption('file', null, InputOption::VALUE_OPTIONAL, 'Option description')
+        ;
     }
 
-    /**
-     * AddCategoryCommand constructor.
-     * @param EntityManagerInterface $em
-     */
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        parent::__construct();
-        $this->em = $em;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Attempting import of...');
 
-        $reader = Reader::createFromPath('%kernel.root_dir%/../src/AppBundle/Data/Category.csv');
-//        $results = $reader->fetchAssoc();
-        $result = $reader->getContent();
-
-        $results = str_getcsv($result);
-//        for ($i = 0; $i<count($result) ;$i++) {
-//            $category = (new Category())
-//                ->setTitle($result[$i]);
-//            $this->em->persist($category);
-//        }
-
-        foreach ($results as $row) {
-                echo "$row";
-            $category = (new Category())
-                ->setTitle($row);
-            $this->em->persist($category);
+        if ($input->getOption('file')) {
+            $filePath = $this->uploads_folder .  $input->getOption('file');
+            $io->note(sprintf('You passed option: %s', $input->getOption('file')));
         }
+        try {
+            $this->categoryService->execute($filePath, $io);
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+        }
+        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
-        $this->em->flush();
-
-        $io->success('Command exited cleanly!');
         return Command::SUCCESS;
     }
-
-
 }
