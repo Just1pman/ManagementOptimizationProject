@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     uploads_folder: '%env(UPLOADS_FOLDER)%'
+    logs_folder: '%env(LOGS_FOLDER)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,3 +37,11 @@ services:
         autowire: true
         arguments:
             - '%uploads_folder%'
+
+    App\EventListener\DatabaseEventListener:
+        class: App\EventListener\DatabaseEventListener
+        autowire: true
+        arguments:
+            - '%logs_folder%'
+        tags:
+            - { name: 'doctrine.event_subscriber' }
