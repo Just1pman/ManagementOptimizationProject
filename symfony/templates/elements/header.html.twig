@@ -2,11 +2,12 @@
     <header class="main-header ">
         <a class="logo-icon main-header__logo "><img width="50" height="auto" src="{{ asset('build/images/cube.svg') }}" alt="logo"></a>
         <nav>
-            <ul>
+            <ul class="d-flex">
                 {% if app.user %}
                     <li><a class="button button--login" href="{{ path('app_logout') }}">Sign out</a></li>
                 {% else %}
                     <li><a class="button button--login" href={{ path('app_login') }}>Sign in</a></li>
+                    <li class="ms-2 ms-sm-3"><a class="button button--login" href={{ path('app_register') }}>Sign up</a></li>
                 {% endif %}
             </ul>
         </nav>

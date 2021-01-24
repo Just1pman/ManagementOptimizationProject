@@ -3,24 +3,66 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+    <div class="wrap">
+        <div class="container h-100 d-flex align-items-center justify-content-center">
+            <div class="row form-wrapper">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
 
-    <div class="login-logo d-flex justify-content-center">
-        <a class="main-header__logo" href="{{ path('homepage') }}"><img width="70" height="auto"
-                                                                        src="{{ asset('build/images/cube.svg') }}"
-                                                                        alt="logo"></a>
+                <div class="login-logo d-flex justify-content-center">
+                    <a class="main-header__logo" href="{{ path('homepage') }}"><img width="70" height="auto"
+                                                                                    src="{{ asset('build/images/cube.svg') }}"
+                                                                                    alt="logo"></a>
+                </div>
+                <h1 class="h3 mb-4 font-weight-normal text-center">Register</h1>
+
+                {{ form_start(registrationForm,
+                    {'attr': {'class': 'col-12 mb-4 '}}) }}
+
+                <div class="login-form">
+                    {{ form_row(registrationForm.email, {
+                        'label_attr': {'class': 'fw-bolder mb-2'},
+                        'attr': {
+                            'class': 'form-control mb-3',
+                            'placeholder': 'Email address',
+                            'autofocus': 'true'
+                        }
+                    }) }}
+
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password',
+                        'label_attr': {'class': 'fw-bolder mb-2'},
+                        'attr': {
+                            'class': 'form-control mb-3',
+                            'placeholder': 'Password'
+                        }
+                    }) }}
+                    <div class="checkbox mb-2">
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                        {{ form_widget(registrationForm.agreeTerms,
+                            {'attr': {'class': 'me-1'}
+                            }) }}
+                        {{ form_label(registrationForm.agreeTerms) }}
+                        {{ form_help(registrationForm.agreeTerms) }}
+                    </div>
+
+
+                    <button type="submit" class="login-button btn w-100">Register</button>
+                </div>
+                {{ form_end(registrationForm) }}
+                <div class="col-12 text-left ">
+                    <div class="register-link border border-1 text-center">
+						<span>
+							Do you have an account?
+						</span>
+
+                        <a href={{ path('app_login') }}>
+                            Log in!
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <h1 class="h3 mb-4 font-weight-normal text-center">Register</h1>
-
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Password'
-    }) }}
-    {{ form_row(registrationForm.agreeTerms) }}
-
-    <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
 {% endblock %}
