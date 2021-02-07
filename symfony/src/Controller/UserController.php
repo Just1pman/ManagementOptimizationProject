@@ -2,9 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Skill;
+use App\Entity\SpokenLanguage;
 use App\Entity\User;
+use App\Form\RegisterUserType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
+use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +33,80 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+        ]);
+    }
+
+
+    /**
+     * Require ROLE_ADMIN for only this controller method.
+     * @IsGranted("ROLE_USER")
+     *
+     * @Route("/register", name="user_register", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function register(Request $request, UserRepository $userRepository): Response
+    {
+        $username = $this->getUser()->getUsername();
+        $user = $userRepository->findOneBy(['email' => "$username"]);
+
+        if ($user === null) {
+            throw new Exception('User is not found');
+        }
+
+        function addTemporaryCollection(Collection $collection, $temporaryCollection)
+        {
+            foreach ($collection as $element) {
+                $temporaryCollection->add($element);
+            }
+        }
+
+        function removeFromCollection($temporaryCollection, $collection, EntityManager $em) {
+
+            foreach ($temporaryCollection as $temporaryElement) {
+                if ($collection->contains($temporaryElement) === false) {
+                    $em->remove($temporaryElement);
+                }
+            }
+        }
+
+        $temporaryEducationCollection = new ArrayCollection();
+        addTemporaryCollection($user->getEducation(), $temporaryEducationCollection);
+
+        $temporaryLanguageCollection = new ArrayCollection();
+        addTemporaryCollection($user->getSpokenLanguage(), $temporaryLanguageCollection);
+
+        $temporaryCareerCollection = new ArrayCollection();
+        addTemporaryCollection($user->getCareerSummaries(), $temporaryCareerCollection);
+
+        $form = $this->createForm(RegisterUserType::class, $user);
+        $form->handleRequest($request);
+
+
+        //получим id category
+
+        //найдём по id category все skills
+
+        //выведем их в choices
+
+        if ($form->isSubmitted()) {
+
+            /** @var EntityManager $em */
+            $em = $this->getDoctrine()->getManager();
+
+            removeFromCollection($temporaryEducationCollection, $user->getEducation(), $em);
+            removeFromCollection($temporaryLanguageCollection, $user->getSpokenLanguage(), $em);
+            removeFromCollection($temporaryCareerCollection, $user->getCareerSummaries(), $em);
+
+            $em->flush();
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user_registration/index.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -95,7 +178,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();

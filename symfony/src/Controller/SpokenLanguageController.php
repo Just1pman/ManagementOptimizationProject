@@ -30,6 +30,8 @@ class SpokenLanguageController extends AbstractController
 
     /**
      * @Route("/", name="spoken_language_index", methods={"GET"})
+     * @param SpokenLanguageRepository $spokenLanguageRepository
+     * @return Response
      */
     public function index(SpokenLanguageRepository $spokenLanguageRepository): Response
     {

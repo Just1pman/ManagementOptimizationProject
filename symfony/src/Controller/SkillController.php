@@ -20,16 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class SkillController extends AbstractController
 {
     /**
-     * Require ROLE_ADMIN for only this controller method.
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function adminDashboard()
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-    }
-
-    /**
      * @Route("/", name="skill_index", methods={"GET"})
+     * @param SkillRepository $skillRepository
+     * @return Response
      */
     public function index(SkillRepository $skillRepository): Response
     {
@@ -40,6 +33,8 @@ class SkillController extends AbstractController
 
     /**
      * @Route("/new", name="skill_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -47,7 +42,7 @@ class SkillController extends AbstractController
         $form = $this->createForm(SkillType::class, $skill);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($skill);
             $entityManager->flush();
@@ -63,6 +58,8 @@ class SkillController extends AbstractController
 
     /**
      * @Route("/{id}", name="skill_show", methods={"GET"})
+     * @param Skill $skill
+     * @return Response
      */
     public function show(Skill $skill): Response
     {
@@ -73,6 +70,9 @@ class SkillController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="skill_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Skill $skill
+     * @return Response
      */
     public function edit(Request $request, Skill $skill): Response
     {
@@ -93,6 +93,9 @@ class SkillController extends AbstractController
 
     /**
      * @Route("/{id}", name="skill_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Skill $skill
+     * @return Response
      */
     public function delete(Request $request, Skill $skill): Response
     {

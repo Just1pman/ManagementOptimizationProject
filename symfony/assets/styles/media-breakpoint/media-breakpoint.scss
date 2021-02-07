@@ -2,6 +2,10 @@
   .wrap {
     margin-bottom: 100px;
   }
+
+  .panel-form {
+    padding: .5rem;
+  }
 }
 
 @include media-breakpoint-up(md) {

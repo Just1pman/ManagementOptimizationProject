@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechnicalExperience index{% endblock %}
+
+{% block body %}
+    <h1>TechnicalExperience index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ExperienceTerm</th>
+                <th>Level</th>
+                <th>LastYearUsed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for technical_experience in technical_experiences %}
+            <tr>
+                <td>{{ technical_experience.id }}</td>
+                <td>{{ technical_experience.experienceTerm }}</td>
+                <td>{{ technical_experience.level }}</td>
+                <td>{{ technical_experience.lastYearUsed }}</td>
+                <td>
+                    <a href="{{ path('technical_experience_show', {'id': technical_experience.id}) }}">show</a>
+                    <a href="{{ path('technical_experience_edit', {'id': technical_experience.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('technical_experience_new') }}">Create new</a>
+{% endblock %}

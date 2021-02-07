@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TechnicalExperience{% endblock %}
+
+{% block body %}
+    <h1>Create new TechnicalExperience</h1>
+
+    {{ include('technical_experience/_form.html.twig') }}
+
+    <a href="{{ path('technical_experience_index') }}">back to list</a>
+{% endblock %}

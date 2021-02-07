@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechnicalExperience{% endblock %}
+
+{% block body %}
+    <h1>TechnicalExperience</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ technical_experience.id }}</td>
+            </tr>
+            <tr>
+                <th>ExperienceTerm</th>
+                <td>{{ technical_experience.experienceTerm }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ technical_experience.level }}</td>
+            </tr>
+            <tr>
+                <th>LastYearUsed</th>
+                <td>{{ technical_experience.lastYearUsed }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('technical_experience_index') }}">back to list</a>
+
+    <a href="{{ path('technical_experience_edit', {'id': technical_experience.id}) }}">edit</a>
+
+    {{ include('technical_experience/_delete_form.html.twig') }}
+{% endblock %}

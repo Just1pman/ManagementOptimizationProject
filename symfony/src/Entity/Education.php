@@ -40,7 +40,7 @@ class Education
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $desciplines;
+    private $disciplines;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -100,14 +100,14 @@ class Education
         return $this;
     }
 
-    public function getDesciplines(): ?string
+    public function getDisciplines(): ?string
     {
-        return $this->desciplines;
+        return $this->disciplines;
     }
 
-    public function setDesciplines(string $desciplines): self
+    public function setDisciplines(string $disciplines): self
     {
-        $this->desciplines = $desciplines;
+        $this->disciplines = $disciplines;
 
         return $this;
     }

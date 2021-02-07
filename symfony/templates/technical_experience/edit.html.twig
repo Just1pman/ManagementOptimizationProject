@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TechnicalExperience{% endblock %}
+
+{% block body %}
+    <h1>Edit TechnicalExperience</h1>
+
+    {{ include('technical_experience/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('technical_experience_index') }}">back to list</a>
+
+    {{ include('technical_experience/_delete_form.html.twig') }}
+{% endblock %}

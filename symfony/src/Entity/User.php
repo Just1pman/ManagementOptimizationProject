@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,17 +46,17 @@ class User implements UserInterface
     private $personalData;
 
     /**
-     * @ORM\ManyToOne(targetEntity=SpokenLanguage::class, inversedBy="user")
+     * @ORM\OneToMany (targetEntity=SpokenLanguage::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $spokenLanguage;
 
     /**
-     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $education;
 
     /**
-     * @ORM\OneToMany(targetEntity=CareerSummary::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=CareerSummary::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $careerSummaries;
 
@@ -75,53 +76,46 @@ class User implements UserInterface
     private $updatedAt;
 
     /**
-     * @return mixed
+     * @ORM\OneToMany(targetEntity=TechnicalExperience::class, mappedBy="user")
      */
-    public function getCreatedAt()
+    private $technicalExperiences;
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     * @ORM\PrePersist
-     */
-    public function setCreatedAt($createdAt): User
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = $createdAt;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param mixed $updatedAt
-     * @ORM\PreUpdate()
-     */
-    public function setUpdatedAt($updatedAt): User
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
     public function __construct()
     {
         $this->education = new ArrayCollection();
-        $this->dateStart = new ArrayCollection();
         $this->careerSummaries = new ArrayCollection();
+        $this->spokenLanguage = new ArrayCollection();
+        $this->technicalExperiences = new ArrayCollection();
     }
 
-    public function __toString():string
+    public function __toString(): string
     {
         return $this->email;
     }
-
 
     public function getId(): ?int
     {
@@ -150,16 +144,9 @@ class User implements UserInterface
         return (string)$this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function setRoles(array $roles): self
@@ -169,12 +156,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return (string)$this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -223,16 +207,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSpokenLanguage(): ?SpokenLanguage
+    /**
+     * @return Collection|SpokenLanguage[]
+     */
+    public function getSpokenLanguage(): Collection
     {
         return $this->spokenLanguage;
-    }
-
-    public function setSpokenLanguage(?SpokenLanguage $spokenLanguage): self
-    {
-        $this->spokenLanguage = $spokenLanguage;
-
-        return $this;
     }
 
     /**
@@ -295,6 +275,9 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -303,6 +286,63 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function addSpokenLanguage(SpokenLanguage $spokenLanguage): self
+    {
+        if (!$this->spokenLanguage->contains($spokenLanguage)) {
+            $this->spokenLanguage[] = $spokenLanguage;
+            $spokenLanguage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpokenLanguage(SpokenLanguage $spokenLanguage): self
+    {
+        if ($this->spokenLanguage->removeElement($spokenLanguage)) {
+            // set the owning side to null (unless already changed)
+            if ($spokenLanguage->getUser() === $this) {
+                $spokenLanguage->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TechnicalExperience[]
+     */
+    public function getTechnicalExperiences(): Collection
+    {
+        return $this->technicalExperiences;
+    }
+
+    public function addTechnicalExperience(TechnicalExperience $technicalExperience): self
+    {
+        if (!$this->technicalExperiences->contains($technicalExperience)) {
+            $this->technicalExperiences[] = $technicalExperience;
+            $technicalExperience->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTechnicalExperience(TechnicalExperience $technicalExperience): self
+    {
+        if ($this->technicalExperiences->removeElement($technicalExperience)) {
+            // set the owning side to null (unless already changed)
+            if ($technicalExperience->getUser() === $this) {
+                $technicalExperience->setUser(null);
+            }
+        }
 
         return $this;
     }

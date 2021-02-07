@@ -8,6 +8,9 @@
     <meta name="keywords" content="management, business, it">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+
     {% block stylesheets %}
         <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png">
         {{ encore_entry_link_tags('styles/app') }}
@@ -33,6 +36,7 @@
 {% endblock body %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+
 {% endblock %}
 </body>
 </html>

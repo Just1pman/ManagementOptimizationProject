@@ -1,4 +1,21 @@
+{% form_theme form
+    'bootstrap_4_layout.html.twig' %}
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<section class="skill mb-3">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            {{ form_help(form.title) }}
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+        </div>
+        <div class="form-group col-sm-6">
+            {{ form_help(form.category) }}
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category) }}
+            {{ form_errors(form.category) }}
+        </div>
+    </div>
+</section>
+<button class="btn btn-success btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form, {'render_rest': false}) }}

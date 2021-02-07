@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SkillRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,26 +15,21 @@ class Skill
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="skills")
      */
-    private $category;
+    private ?Category $category;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Project::class, mappedBy="technologies")
-     */
-    private $projects;
-
-    public function __construct()
+    public function __toString(): ?string
     {
-        $this->projects = new ArrayCollection();
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -68,30 +61,4 @@ class Skill
         return $this;
     }
 
-    /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->addTechnology($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->removeElement($project)) {
-            $project->removeTechnology($this);
-        }
-
-        return $this;
-    }
 }

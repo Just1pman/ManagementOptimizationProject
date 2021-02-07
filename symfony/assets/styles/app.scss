@@ -2,6 +2,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "elements/footer";
 @import "forms/login_form";
+@import "elements/user_registration";
 
 html {
   height: 100%;
@@ -35,7 +36,8 @@ a {
 }
 
 .introduction__title {
-  font-size: 40px;
+  font-family: 'Sriracha', cursive;
+  font-size: 45px;
 }
 
 .introduction__column {
@@ -57,3 +59,5 @@ a {
 }
 
 @import "media-breakpoint/media-breakpoint";
+
+

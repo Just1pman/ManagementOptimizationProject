@@ -17,21 +17,22 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
      * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="category")
      */
-    private $skills;
+    private ?string $skills;
 
-    public function __construct()
+    public function __toString(): ?string
     {
-        $this->skills = new ArrayCollection();
+        return $this->getTitle();
     }
 
     public function getId(): ?int
@@ -51,10 +52,7 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection|Skill[]
-     */
-    public function getSkills(): Collection
+    public function getSkills(): ?string
     {
         return $this->skills;
     }
@@ -77,6 +75,13 @@ class Category
                 $skill->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setSkills(string $skills): self
+    {
+        $this->skills = $skills;
 
         return $this;
     }

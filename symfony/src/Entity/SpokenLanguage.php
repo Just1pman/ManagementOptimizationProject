@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\SpokenLanguageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +11,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SpokenLanguage
 {
+    const LANGUAGE = [
+        "English" => "English",
+        "Russian" => "Russian",
+        "Polish" => "Polish",
+        "Deutsch" => "Deutsch",
+        "Chinese" => "Chinese",
+        "Ukrainian" => "Ukrainian"
+    ];
+
+    const LEVEL = [
+        "Beginner" => "Beginner",
+        "Elementary" => "Elementary",
+        "Intermediate" => "Intermediate",
+        "Upper-Intermediate" => "Upper-Intermediate",
+        "Advanced" => "Advanced",
+        "Proficiency" => "Proficiency",
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,7 +37,7 @@ class SpokenLanguage
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="spokenLanguage")
+     * @ORM\ManyToOne (targetEntity=User::class, inversedBy="spokenLanguage")
      */
     private $user;
 
@@ -34,20 +51,12 @@ class SpokenLanguage
      */
     private $level;
 
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
@@ -57,18 +66,6 @@ class SpokenLanguage
         if (!$this->user->contains($user)) {
             $this->user[] = $user;
             $user->setSpokenLanguage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getSpokenLanguage() === $this) {
-                $user->setSpokenLanguage(null);
-            }
         }
 
         return $this;
@@ -94,6 +91,13 @@ class SpokenLanguage
     public function setLevel(string $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

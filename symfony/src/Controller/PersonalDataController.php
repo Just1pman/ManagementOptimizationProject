@@ -20,15 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class PersonalDataController extends AbstractController
 {
     /**
-     * Require ROLE_ADMIN for only this controller method.
-     * @IsGranted("ROLE_MANAGER")
-     */
-    public function adminDashboard()
-    {
-        $this->denyAccessUnlessGranted('ROLE_MANAGER', null, 'User tried to access a page without having ROLE_MANAGER');
-    }
-
-    /**
      * @Route("/", name="personal_data_index", methods={"GET"})
      * @param PersonalDataRepository $personalDataRepository
      * @return Response

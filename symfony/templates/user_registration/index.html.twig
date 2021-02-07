@@ -1,0 +1,226 @@
+{% extends 'base.html.twig' %}
+{% form_theme form
+    'bootstrap_4_layout.html.twig' %}
+
+{% macro education_prototype(education) %}
+    <div class="form-group col-md-6 col-lg-3">
+        {{ form_help(education.dateStart) }}
+        {{ form_label(education.dateStart) }}
+        {{ form_widget(education.dateStart) }}
+        {{ form_errors(education.dateStart) }}
+    </div>
+
+    <div class="form-group col-md-6 col-lg-3">
+        {{ form_help(education.dateEnd) }}
+        {{ form_label(education.dateEnd) }}
+        {{ form_widget(education.dateEnd) }}
+        {{ form_errors(education.dateStart) }}
+    </div>
+
+    <div class="form-group col-md-6">
+        {{ form_help(education.title) }}
+        {{ form_label(education.title) }}
+        {{ form_widget(education.title) }}
+        {{ form_errors(education.title) }}
+    </div>
+
+    <div class="form-group col-md-6">
+        {{ form_help(education.disciplines) }}
+        {{ form_label(education.disciplines) }}
+        {{ form_widget(education.disciplines) }}
+        {{ form_errors(education.disciplines) }}
+    </div>
+
+    <div class="form-group col-lg-6">
+        {{ form_help(education.result) }}
+        {{ form_label(education.result) }}
+        {{ form_widget(education.result) }}
+        {{ form_errors(education.result) }}
+    </div>
+    <div class="informations_error">{{ form_errors(education) }}</div>
+{% endmacro %}
+
+{% macro spokenLanguage_prototype(languages) %}
+    <div class="form-group col-sm-6">
+        {{ form_help(languages.language) }}
+        {{ form_label(languages.language) }}
+        {{ form_widget(languages.language) }}
+        {{ form_errors(languages.language) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ form_help(languages.level) }}
+        {{ form_label(languages.level) }}
+        {{ form_widget(languages.level) }}
+        {{ form_errors(languages.level) }}
+    </div>
+    <div class="informations_error">{{ form_errors(languages) }}</div>
+{% endmacro %}
+
+ {% macro careerSummaries_prototype(careerSummaries) %}
+ <div class="form-group col-sm-6">
+ {{ form_help(careerSummaries.dateStart) }}
+ {{ form_label(careerSummaries.dateStart) }}
+ {{ form_widget(careerSummaries.dateStart) }}
+ {{ form_errors(careerSummaries.dateStart) }}
+ </div>
+ <div class="form-group col-sm-6">
+ {{ form_help(careerSummaries.dateEnd) }}
+ {{ form_label(careerSummaries.dateEnd) }}
+ {{ form_widget(careerSummaries.dateEnd) }}
+ {{ form_errors(careerSummaries.dateEnd) }}
+ </div>
+ <div class="form-group">
+ {{ form_help(careerSummaries.position) }}
+ {{ form_label(careerSummaries.position) }}
+ {{ form_widget(careerSummaries.position) }}
+ {{ form_errors(careerSummaries.position) }}
+ </div>
+ <div class="form-group">
+ {{ form_help(careerSummaries.jobDescription) }}
+ {{ form_label(careerSummaries.jobDescription) }}
+ {{ form_widget(careerSummaries.jobDescription) }}
+ {{ form_errors(careerSummaries.jobDescription) }}
+ </div>
+ <div class="informations_error">{{ form_errors(careerSummaries) }}</div>
+ {% endmacro %}
+
+{% macro technicalExperiences_prototype(technicalExperiences) %}
+    <div class="form-group col-sm-6">
+        {{ form_help(technicalExperiences.category) }}
+        {{ form_label(technicalExperiences.category) }}
+        {{ form_widget(technicalExperiences.category) }}
+        {{ form_errors(technicalExperiences.category) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ form_help(technicalExperiences.experienceTerm) }}
+        {{ form_label(technicalExperiences.experienceTerm) }}
+        {{ form_widget(technicalExperiences.experienceTerm) }}
+        {{ form_errors(technicalExperiences.experienceTerm) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ form_help(technicalExperiences.level) }}
+        {{ form_label(technicalExperiences.level) }}
+        {{ form_widget(technicalExperiences.level) }}
+        {{ form_errors(technicalExperiences.level) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ form_help(technicalExperiences.lastYearUsed) }}
+        {{ form_label(technicalExperiences.lastYearUsed) }}
+        {{ form_widget(technicalExperiences.lastYearUsed) }}
+        {{ form_errors(technicalExperiences.lastYearUsed) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ form_help(technicalExperiences.skill) }}
+        {{ form_label(technicalExperiences.skill) }}
+        {{ form_widget(technicalExperiences.skill) }}
+        {{ form_errors(technicalExperiences.skill) }}
+    </div>
+    <div class="informations_error">{{ form_errors(technicalExperiences) }}</div>
+{% endmacro %}
+
+{% block title %}User register{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="container">
+
+        <section class="education mb-3">
+            <h2 class="user-register__title text-center">Education</h2>
+            <div class="w-100" id="education_list"
+                data-prototype="{{ _self.education_prototype(form.education.vars.prototype)|e('html_attr') }}">
+                {% for row in form.education %}
+                    <div class="panel panel-form">
+
+                        <div class="panel-body row mb-4">
+                            {{ _self.education_prototype(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="personal-data mb-3">
+            <h2 class="user-register__title text-center">Personal data</h2>
+            <div class="personal-data__wrapper">
+                <div class="personal-data--form row">
+                    <div class="form-group col-md-6 col-lg-3">
+                        {{ form_row(form.personalData.dateOfBirth) }}
+                    </div>
+
+                    <div class="form-group col-md-6 col-lg-3">
+                        {{ form_row(form.personalData.gender) }}
+                    </div>
+
+                    <div class="form-group col-md-6 col-lg-3">
+                        {{ form_row(form.personalData.maritalStatus) }}
+                    </div>
+
+                    <div class="form-group col-md-6 col-lg-3">
+                        {{ form_row(form.personalData.phone) }}
+                    </div>
+
+                    <div class="form-group col-">
+                        {{ form_row(form.personalData.about) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="spoken-language mb-3">
+            <h2 class="user-register__title text-center">Spoken languages</h2>
+            <div class="w-100" id="language_list"
+                data-prototype="{{ _self.spokenLanguage_prototype(form.spokenLanguage.vars.prototype)|e('html_attr') }}
+                ">
+                {% for row in form.spokenLanguage %}
+                    <div class="panel panel-form">
+                        <div class="panel-body row mb-4">
+                            {{ _self.spokenLanguage_prototype(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="career-summary mb-3">
+            <h2 class="user-register__title text-center">Career summary</h2>
+            <div class="w-100" id="experience_list"
+                data-prototype="{{ _self.careerSummaries_prototype(form.careerSummaries.vars.prototype)|e('html_attr') }}
+                ">
+                {% for row in form.careerSummaries %}
+                    <div class="panel panel-form">
+                        <div class="panel-body row mb-4">
+                            {{ _self.careerSummaries_prototype(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="technical-experience mb-3">
+            <h2 class="user-register__title text-center">Technical experience</h2>
+            <div class="w-100" id="summary_list"
+                 data-prototype="{{ _self.technicalExperiences_prototype(form.technicalExperiences.vars.prototype)|e('html_attr') }}
+                ">
+                {% for row in form.technicalExperiences %}
+                    <div class="panel panel-form">
+                        <div class="panel-body row mb-4">
+                            {{ _self.technicalExperiences_prototype(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {{ form_row(form.save) }}
+    </div>
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
