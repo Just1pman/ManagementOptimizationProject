@@ -1,15 +1,54 @@
 <div class="container">
-    <header class="main-header ">
-        <a class="logo-icon main-header__logo "><img width="50" height="auto" src="{{ asset('build/images/cube.svg') }}" alt="logo"></a>
-        <nav>
-            <ul class="d-flex">
-                {% if app.user %}
-                    <li><a class="button button--login" href="{{ path('app_logout') }}">Sign out</a></li>
-                {% else %}
-                    <li><a class="button button--login" href={{ path('app_login') }}>Sign in</a></li>
-                    <li class="ms-2 ms-sm-3"><a class="button button--login" href={{ path('app_register') }}>Sign up</a></li>
-                {% endif %}
-            </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3 mb-md-5">
+            <div class="container-fluid py-2">
+                    {% block logoHeaderLink %}
+                        <a class="logo-icon main-header__logo me-lg-3"><img width="50" height="auto"
+                                                                            src="{{ asset('build/images/cube.svg') }}"
+                                                                            alt="logo"></a>
+                    {% endblock logoHeaderLink %}
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
+                        {# <li class="nav-item"> #}
+                        {# <a class="nav-link active" aria-current="page" href="#">Home</a> #}
+                        {# </li> #}
+                        {% if is_granted('ROLE_USER') and not is_granted('ROLE_MANAGER') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_register') }}">Registration</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mb-lg-0">
+                        {% if app.user %}
+                            <li class="nav-item"><a class="button nav-link" href="{{ path('app_logout') }}">Sign out</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item"><a class="button nav-link" href={{ path('app_login') }}>Sign in</a>
+                            </li>
+                            <li class="nav-item"><a class="button nav-link" href={{ path('app_register') }}>Sign up</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </nav>
+
+
     </header>
 </div>

@@ -8,8 +8,7 @@
 // any CSS you import will output into a single css file (app.scss in this case)
 // alert( 'Привет, мир!' );
 const $ = require('jquery');
-
-
+const bootstrap = require('bootstrap')
 
 Action($('#education_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new education</a>'));
 Action($('#language_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new language</a>'));

@@ -57,31 +57,31 @@
 {% endmacro %}
 
  {% macro careerSummaries_prototype(careerSummaries) %}
- <div class="form-group col-sm-6">
- {{ form_help(careerSummaries.dateStart) }}
- {{ form_label(careerSummaries.dateStart) }}
- {{ form_widget(careerSummaries.dateStart) }}
- {{ form_errors(careerSummaries.dateStart) }}
- </div>
- <div class="form-group col-sm-6">
- {{ form_help(careerSummaries.dateEnd) }}
- {{ form_label(careerSummaries.dateEnd) }}
- {{ form_widget(careerSummaries.dateEnd) }}
- {{ form_errors(careerSummaries.dateEnd) }}
- </div>
- <div class="form-group">
- {{ form_help(careerSummaries.position) }}
- {{ form_label(careerSummaries.position) }}
- {{ form_widget(careerSummaries.position) }}
- {{ form_errors(careerSummaries.position) }}
- </div>
- <div class="form-group">
- {{ form_help(careerSummaries.jobDescription) }}
- {{ form_label(careerSummaries.jobDescription) }}
- {{ form_widget(careerSummaries.jobDescription) }}
- {{ form_errors(careerSummaries.jobDescription) }}
- </div>
- <div class="informations_error">{{ form_errors(careerSummaries) }}</div>
+     <div class="form-group col-sm-6">
+         {{ form_help(careerSummaries.dateStart) }}
+         {{ form_label(careerSummaries.dateStart) }}
+         {{ form_widget(careerSummaries.dateStart) }}
+         {{ form_errors(careerSummaries.dateStart) }}
+     </div>
+     <div class="form-group col-sm-6">
+         {{ form_help(careerSummaries.dateEnd) }}
+         {{ form_label(careerSummaries.dateEnd) }}
+         {{ form_widget(careerSummaries.dateEnd) }}
+         {{ form_errors(careerSummaries.dateEnd) }}
+     </div>
+     <div class="form-group">
+         {{ form_help(careerSummaries.position) }}
+         {{ form_label(careerSummaries.position) }}
+         {{ form_widget(careerSummaries.position) }}
+         {{ form_errors(careerSummaries.position) }}
+     </div>
+     <div class="form-group">
+         {{ form_help(careerSummaries.jobDescription) }}
+         {{ form_label(careerSummaries.jobDescription) }}
+         {{ form_widget(careerSummaries.jobDescription) }}
+         {{ form_errors(careerSummaries.jobDescription) }}
+     </div>
+     <div class="informations_error">{{ form_errors(careerSummaries) }}</div>
  {% endmacro %}
 
 {% macro technicalExperiences_prototype(technicalExperiences) %}
@@ -127,7 +127,7 @@
         <section class="education mb-3">
             <h2 class="user-register__title text-center">Education</h2>
             <div class="w-100" id="education_list"
-                data-prototype="{{ _self.education_prototype(form.education.vars.prototype)|e('html_attr') }}">
+                 data-prototype="{{ _self.education_prototype(form.education.vars.prototype)|e('html_attr') }}">
                 {% for row in form.education %}
                     <div class="panel panel-form">
 
@@ -169,7 +169,7 @@
         <section class="spoken-language mb-3">
             <h2 class="user-register__title text-center">Spoken languages</h2>
             <div class="w-100" id="language_list"
-                data-prototype="{{ _self.spokenLanguage_prototype(form.spokenLanguage.vars.prototype)|e('html_attr') }}
+                 data-prototype="{{ _self.spokenLanguage_prototype(form.spokenLanguage.vars.prototype)|e('html_attr') }}
                 ">
                 {% for row in form.spokenLanguage %}
                     <div class="panel panel-form">
@@ -184,7 +184,7 @@
         <section class="career-summary mb-3">
             <h2 class="user-register__title text-center">Career summary</h2>
             <div class="w-100" id="experience_list"
-                data-prototype="{{ _self.careerSummaries_prototype(form.careerSummaries.vars.prototype)|e('html_attr') }}
+                 data-prototype="{{ _self.careerSummaries_prototype(form.careerSummaries.vars.prototype)|e('html_attr') }}
                 ">
                 {% for row in form.careerSummaries %}
                     <div class="panel panel-form">
