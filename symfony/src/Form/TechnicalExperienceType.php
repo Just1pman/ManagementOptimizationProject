@@ -2,15 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Category;
 use App\Entity\TechnicalExperience;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Repository\CategoryRepository;
+use App\Repository\SkillRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TechnicalExperienceType extends AbstractType
@@ -21,59 +20,62 @@ class TechnicalExperienceType extends AbstractType
      */
     private TechnicalExperience $experience;
 
-    public function __construct(TechnicalExperience $experience)
+    /**
+     * @var CategoryRepository
+     */
+    private CategoryRepository $categoryRepository;
+    /**
+     * @var SkillRepository
+     */
+    private SkillRepository $skillRepository;
+
+    public function __construct(TechnicalExperience $experience, CategoryRepository $categoryRepository, SkillRepository $skillRepository)
     {
 
         $this->experience = $experience;
+        $this->categoryRepository = $categoryRepository;
+        $this->skillRepository = $skillRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('experienceTerm', IntegerType::class)
-            ->add('level', ChoiceType::class, [
-//                'choices' =>
-
+            ->add('experienceTerm', ChoiceType::class, [
+                'choices' => $this->getYears(1990),
             ])
-            ->add('skill', ChoiceType::class, [
+            ->add('level', ChoiceType::class, [
                 'choices' => $this->experience::LEVEL
             ])
-            ->add('lastYearUsed', IntegerType::class)
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-//                'placeholder' => ''
+            ->add('lastYearUsed', ChoiceType::class, [
+                'choices' => $this->getYears(1990),
+            ])
+            ->add('skills', ChoiceType::class, [
+                'choices' => $this->skillCategory(),
             ]);
     }
 
-//        $builder->addEventListener(
-//            FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) {
-//                $form = $event->getForm();
-//
-//                // это будет ваша сущность, т.е. TechnicalExperienceType
-//                $data = $event->getData();
-//                /** @var TechnicalExperience $data */
-//                $category = $data->getCategory();
-//
-//                $choices = null === $category ? array() : $category->getSkills();
-//
-//                $form->add('skill', ChoiceType::class, [
-//                'choices' => $choices
-//                ]);
-//            }
+    private function getYears($min, $max='current')
+    {
+        $years = range($min, ($max === 'current' ? date('Y') : $max));
 
-//                $form->add('position', EntityType::class, array(
-//                    'class' => 'App\Entity\Position',
-//                    'placeholder' => '',
-//                    'choices' => $positions,
-//                ));
-//            }
-//        );
+        return array_combine($years, $years);
+    }
 
-
-
-//            ->add('user')
-//    }
+    public function skillCategory(): array
+    {
+        $skills = [];
+        foreach ($this->categoryRepository->getAllTitle() as $item) {
+            $category = $this->categoryRepository->findOneBy(['title' => $item]);
+            $categoryId = $category->getId();
+            $skillsCategory = $this->skillRepository->findBy(['category' => $categoryId]);
+            $skillsCollection = [];
+            foreach ($skillsCategory as $skill) {
+                $skillsCollection[$skill->getTitle()] = $skill->getTitle();
+            }
+            $skills[$item] = $skillsCollection;
+        }
+        return $skills;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {

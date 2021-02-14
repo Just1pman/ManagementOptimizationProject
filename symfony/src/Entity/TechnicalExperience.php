@@ -28,14 +28,9 @@ class TechnicalExperience
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Category::class, cascade={"persist", "remove"})
+     * @ORM\Column(type="string")
      */
-    private $category;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="technicalExperience")
-     */
-    private $skill;
+    private $skills;
 
     /**
      * @ORM\Column(type="integer")
@@ -59,54 +54,12 @@ class TechnicalExperience
 
     public function __construct()
     {
-        $this->skill = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Skill[]
-     */
-    public function getSkill(): Collection
-    {
-        return $this->skill;
-    }
-
-    public function addSkill(Skill $skill): self
-    {
-        if (!$this->skill->contains($skill)) {
-            $this->skill[] = $skill;
-            $skill->setTechnicalExperience($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSkill(Skill $skill): self
-    {
-        if ($this->skill->removeElement($skill)) {
-            // set the owning side to null (unless already changed)
-            if ($skill->getTechnicalExperience() === $this) {
-                $skill->setTechnicalExperience(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getExperienceTerm(): ?int
@@ -153,6 +106,18 @@ class TechnicalExperience
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSkills(): ?string
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(string $skills): self
+    {
+        $this->skills = $skills;
 
         return $this;
     }

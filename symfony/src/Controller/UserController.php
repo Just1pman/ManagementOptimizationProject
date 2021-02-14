@@ -2,9 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
-use App\Entity\Skill;
-use App\Entity\SpokenLanguage;
 use App\Entity\User;
 use App\Form\RegisterUserType;
 use App\Form\UserType;
@@ -49,8 +46,8 @@ class UserController extends AbstractController
      */
     public function register(Request $request, UserRepository $userRepository): Response
     {
-        $username = $this->getUser()->getUsername();
-        $user = $userRepository->findOneBy(['email' => "$username"]);
+        $data = $this->getUser()->getUsername();
+        $user = $userRepository->findOneBy(['email' => "$data"]);
 
         if ($user === null) {
             throw new Exception('User is not found');
@@ -81,6 +78,9 @@ class UserController extends AbstractController
         $temporaryCareerCollection = new ArrayCollection();
         addTemporaryCollection($user->getCareerSummaries(), $temporaryCareerCollection);
 
+        $temporaryTechnicalExperienceCollection = new ArrayCollection();
+        addTemporaryCollection($user->getTechnicalExperiences(), $temporaryTechnicalExperienceCollection);
+
         $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
 
@@ -99,6 +99,7 @@ class UserController extends AbstractController
             removeFromCollection($temporaryEducationCollection, $user->getEducation(), $em);
             removeFromCollection($temporaryLanguageCollection, $user->getSpokenLanguage(), $em);
             removeFromCollection($temporaryCareerCollection, $user->getCareerSummaries(), $em);
+            removeFromCollection($temporaryTechnicalExperienceCollection, $user->getTechnicalExperiences(), $em);
 
             $em->flush();
             return $this->redirectToRoute('user_index');

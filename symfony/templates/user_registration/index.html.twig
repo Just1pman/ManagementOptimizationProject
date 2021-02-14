@@ -85,35 +85,29 @@
  {% endmacro %}
 
 {% macro technicalExperiences_prototype(technicalExperiences) %}
-    <div class="form-group col-sm-6">
-        {{ form_help(technicalExperiences.category) }}
-        {{ form_label(technicalExperiences.category) }}
-        {{ form_widget(technicalExperiences.category) }}
-        {{ form_errors(technicalExperiences.category) }}
+    <div class="form-group col-lg-3">
+        {{ form_help(technicalExperiences.skills) }}
+        {{ form_label(technicalExperiences.skills) }}
+        {{ form_widget(technicalExperiences.skills) }}
+        {{ form_errors(technicalExperiences.skills) }}
     </div>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-lg-3">
         {{ form_help(technicalExperiences.experienceTerm) }}
         {{ form_label(technicalExperiences.experienceTerm) }}
         {{ form_widget(technicalExperiences.experienceTerm) }}
         {{ form_errors(technicalExperiences.experienceTerm) }}
     </div>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-lg-3">
         {{ form_help(technicalExperiences.level) }}
         {{ form_label(technicalExperiences.level) }}
         {{ form_widget(technicalExperiences.level) }}
         {{ form_errors(technicalExperiences.level) }}
     </div>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-lg-3">
         {{ form_help(technicalExperiences.lastYearUsed) }}
         {{ form_label(technicalExperiences.lastYearUsed) }}
         {{ form_widget(technicalExperiences.lastYearUsed) }}
         {{ form_errors(technicalExperiences.lastYearUsed) }}
-    </div>
-    <div class="form-group col-sm-6">
-        {{ form_help(technicalExperiences.skill) }}
-        {{ form_label(technicalExperiences.skill) }}
-        {{ form_widget(technicalExperiences.skill) }}
-        {{ form_errors(technicalExperiences.skill) }}
     </div>
     <div class="informations_error">{{ form_errors(technicalExperiences) }}</div>
 {% endmacro %}
@@ -200,7 +194,7 @@
             <h2 class="user-register__title text-center">Technical experience</h2>
             <div class="w-100" id="summary_list"
                  data-prototype="{{ _self.technicalExperiences_prototype(form.technicalExperiences.vars.prototype)|e('html_attr') }}
-                ">
+             ">
                 {% for row in form.technicalExperiences %}
                     <div class="panel panel-form">
                         <div class="panel-body row mb-4">
@@ -210,7 +204,6 @@
                 {% endfor %}
             </div>
         </section>
-
         {{ form_row(form.save) }}
     </div>
     {{ form_end(form, {'render_rest': false}) }}
