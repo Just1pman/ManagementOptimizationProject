@@ -45,7 +45,7 @@ class Project
     private $role;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Skill::class, inversedBy="projects")
+     * @ORM\ManyToMany(targetEntity=Technology::class, cascade="persist")
      */
     private $technologies;
 
@@ -93,7 +93,7 @@ class Project
         return $this->periodStart;
     }
 
-    public function setPeriodStart(\DateTimeInterface $periodStart): self
+    public function setPeriodStart(\DateTimeInterface$periodStart): self
     {
         $this->periodStart = $periodStart;
 
@@ -131,17 +131,20 @@ class Project
     {
         return $this->technologies;
     }
-
-    public function addTechnology(Skill $technology): self
+// если технология содержится в базе, тогда не добавляем её в базу, а просто добавляем её id
+    public function addTechnology($technology): self
     {
-        if (!$this->technologies->contains($technology)) {
+//        $technologyRepository = $this->em->getRepository(Technology::class);
+//
+//
+        if (!$this->technologies->contains($technology) ) {
             $this->technologies[] = $technology;
         }
 
         return $this;
     }
 
-    public function removeTechnology(Skill $technology): self
+    public function removeTechnology($technology): self
     {
         $this->technologies->removeElement($technology);
 

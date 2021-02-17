@@ -33,6 +33,23 @@ class UserController extends AbstractController
         ]);
     }
 
+    private function addTemporaryCollection(Collection $collection, $temporaryCollection)
+    {
+        foreach ($collection as $element) {
+            $temporaryCollection->add($element);
+        }
+        return $this;
+    }
+
+    private function removeFromCollection($temporaryCollection, $collection, EntityManager $em)
+    {
+        foreach ($temporaryCollection as $temporaryElement) {
+            if ($collection->contains($temporaryElement) === false) {
+                $em->remove($temporaryElement);
+            }
+        }
+        return $this;
+    }
 
     /**
      * Require ROLE_ADMIN for only this controller method.
@@ -46,6 +63,11 @@ class UserController extends AbstractController
      */
     public function register(Request $request, UserRepository $userRepository): Response
     {
+        $temporaryEducationCollection = new ArrayCollection();
+        $temporaryLanguageCollection = new ArrayCollection();
+        $temporaryCareerCollection = new ArrayCollection();
+        $temporaryTechnicalExperienceCollection = new ArrayCollection();
+
         $data = $this->getUser()->getUsername();
         $user = $userRepository->findOneBy(['email' => "$data"]);
 
@@ -53,53 +75,24 @@ class UserController extends AbstractController
             throw new Exception('User is not found');
         }
 
-        function addTemporaryCollection(Collection $collection, $temporaryCollection)
-        {
-            foreach ($collection as $element) {
-                $temporaryCollection->add($element);
-            }
-        }
-
-        function removeFromCollection($temporaryCollection, $collection, EntityManager $em) {
-
-            foreach ($temporaryCollection as $temporaryElement) {
-                if ($collection->contains($temporaryElement) === false) {
-                    $em->remove($temporaryElement);
-                }
-            }
-        }
-
-        $temporaryEducationCollection = new ArrayCollection();
-        addTemporaryCollection($user->getEducation(), $temporaryEducationCollection);
-
-        $temporaryLanguageCollection = new ArrayCollection();
-        addTemporaryCollection($user->getSpokenLanguage(), $temporaryLanguageCollection);
-
-        $temporaryCareerCollection = new ArrayCollection();
-        addTemporaryCollection($user->getCareerSummaries(), $temporaryCareerCollection);
-
-        $temporaryTechnicalExperienceCollection = new ArrayCollection();
-        addTemporaryCollection($user->getTechnicalExperiences(), $temporaryTechnicalExperienceCollection);
+        $this
+            ->addTemporaryCollection($user->getEducation(), $temporaryEducationCollection)
+            ->addTemporaryCollection($user->getSpokenLanguage(), $temporaryLanguageCollection)
+            ->addTemporaryCollection($user->getCareerSummaries(), $temporaryCareerCollection)
+            ->addTemporaryCollection($user->getTechnicalExperiences(), $temporaryTechnicalExperienceCollection);
 
         $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
 
-
-        //получим id category
-
-        //найдём по id category все skills
-
-        //выведем их в choices
-
         if ($form->isSubmitted()) {
-
             /** @var EntityManager $em */
             $em = $this->getDoctrine()->getManager();
 
-            removeFromCollection($temporaryEducationCollection, $user->getEducation(), $em);
-            removeFromCollection($temporaryLanguageCollection, $user->getSpokenLanguage(), $em);
-            removeFromCollection($temporaryCareerCollection, $user->getCareerSummaries(), $em);
-            removeFromCollection($temporaryTechnicalExperienceCollection, $user->getTechnicalExperiences(), $em);
+            $this
+                ->removeFromCollection($temporaryEducationCollection, $user->getEducation(), $em)
+                ->removeFromCollection($temporaryLanguageCollection, $user->getSpokenLanguage(), $em)
+                ->removeFromCollection($temporaryCareerCollection, $user->getCareerSummaries(), $em)
+                ->removeFromCollection($temporaryTechnicalExperienceCollection, $user->getTechnicalExperiences(), $em);
 
             $em->flush();
             return $this->redirectToRoute('user_index');

@@ -1,4 +1,65 @@
+{% import "project/macros.html.twig" as forms %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.internalTitle) }}
+    {{ form_label(form.internalTitle) }}
+    {{ form_widget(form.internalTitle) }}
+    {{ form_errors(form.internalTitle) }}
+</div>
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.externalTitle) }}
+    {{ form_label(form.externalTitle) }}
+    {{ form_widget(form.externalTitle) }}
+    {{ form_errors(form.externalTitle) }}
+</div>
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.periodStart) }}
+    {{ form_label(form.periodStart) }}
+    {{ form_widget(form.periodStart) }}
+    {{ form_errors(form.periodStart) }}
+</div>
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.periodEnd) }}
+    {{ form_label(form.periodEnd) }}
+    {{ form_widget(form.periodEnd) }}
+    {{ form_errors(form.periodEnd) }}
+</div>
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.description) }}
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<div class="form-group col-lg-3">
+    {{ form_help(form.role) }}
+    {{ form_label(form.role) }}
+    {{ form_widget(form.role) }}
+    {{ form_errors(form.role) }}
+</div>
+
+<section class="technical-experience mb-3">
+    <div class="w-100" id="technology_list"
+         data-prototype="{{ forms.technologies_prototype(form.technologies.vars.prototype)|e('html_attr') }}
+             ">
+        {% for row in form.technologies %}
+            <div class="panel panel-form">
+                <div class="panel-body row mb-4">
+                    {{ forms.technologies_prototype(row) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<div class="form-group col-lg-3">
+    {{ form_row(form.save) }}
+</div>
+
+{{ form_end(form, {'render_rest': false}) }}

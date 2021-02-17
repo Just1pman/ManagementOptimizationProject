@@ -2,38 +2,49 @@
 
 {% block title %}User index{% endblock %}
 
-{% block body %}
-    <h1>User index</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% dump %}
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block content %}
+    <div class="container">
+        <h1>User index</h1>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+        {% dump %}
+        <div class="row flex-wrap">
+            {# <div class="row flex-wrap"> #}
+            {% for user in users %}
+                <a class="card col-md-3 mb-2" href="{{ path('user_show', {'id': user.id}) }}">
+{#                <div class="">#}
+                    <div class="card-body ">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                                 class="rounded-circle"
+                                 width="150">
+                            <div class="mt-3">
+                                <h4>{{ user.email }}</h4>
+                                <p class="text-secondary mb-1">Full Stack Developer</p>
+                                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                {# <button class="btn btn-primary">Follow</button> #}
+                                {# <button class="btn btn-outline-primary">Message</button> #}
+                            </div>
+                        </div>
+                    </div>
+{#                </div>#}
+                </a>
+            {% endfor %}
+        </div>
+
+
+        {# <td>{{ user.id }}</td> #}
+        {# <td>{{ user.email }}</td> #}
+        {# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
+        {# <td>{{ user.password }}</td> #}
+        {# <td> #}
+        {# <a href="{{ path('user_show', {'id': user.id}) }}">show</a> #}
+        {# <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a> #}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+
+
+        <a href="{{ path('user_new') }}">Create new</a>
+
+    </div>
 {% endblock %}

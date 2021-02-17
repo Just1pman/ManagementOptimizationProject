@@ -14,11 +14,11 @@ Action($('#education_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add n
 Action($('#language_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new language</a>'));
 Action($('#summary_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new summary</a>'));
 Action($('#experience_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new experience</a>'));
+Action($('#technology_list'), $('<a href="#" class="btn btn-info my-3 ms-3">Add new technology</a>'));
 
 
 function Action($holder, $button) {
     $(document).ready(function () {
-        // $holder = $('#exp_list');
         $holder.append($button);
         $holder.data('index', $holder.find('.panel').length)
         $holder.find('.panel').each(function () {

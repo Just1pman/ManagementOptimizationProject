@@ -2,42 +2,46 @@
 
 {% block title %}Project index{% endblock %}
 
-{% block body %}
-    <h1>Project index</h1>
+{% block content %}
+    <div class="container">
+        <h1>Project index</h1>
+        <div class="row flex-wrap">
+            {% for project in projects %}
+                <a class="card col-md-3 mb-2" href="{{ path('project_show', {'id': project.id}) }}">
+{#                    <div class="">#}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.internalTitle }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ project.description }}</h6>
+                            <p class="card-text">{{ project.description }}</p>
+                            <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+                        </div>
+{#                    </div>#}
+                </a>
+            {% endfor %}
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>InternalTitle</th>
-                <th>ExternalTitle</th>
-                <th>PeriodStart</th>
-                <th>PeriodEnd</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for project in projects %}
-            <tr>
-                <td>{{ project.id }}</td>
-                <td>{{ project.internalTitle }}</td>
-                <td>{{ project.externalTitle }}</td>
-                <td>{{ project.periodStart ? project.periodStart|date('Y-m-d') : '' }}</td>
-                <td>{{ project.periodEnd ? project.periodEnd|date('Y-m-d') : '' }}</td>
-                <td>{{ project.description }}</td>
-                <td>
-                    <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        {# <tr> #}
+        {# <td>{{ project.id }}</td> #}
+        {# <td></td> #}
+        {# <td>{{ project.externalTitle }}</td> #}
+        {# <td>{{ project.periodStart ? project.periodStart|date('Y-m-d') : '' }}</td> #}
+        {# <td>{{ project.periodEnd ? project.periodEnd|date('Y-m-d') : '' }}</td> #}
+        {# <td></td> #}
+        {# <td> #}
+        {# {% for technologie in project.technologies %} #}
+        {# {{ technologie.title }} #}
+        {# {% endfor %} #}
+        {# </td> #}
 
-    <a href="{{ path('project_new') }}">Create new</a>
+        {# <td> #}
+
+
+        {# {% else %} #}
+        {# <tr> #}
+        {# <td colspan="7">no records found</td> #}
+        {# </tr> #}
+
+
+        <a href="{{ path('project_new') }}">Create new</a>
+    </div>
 {% endblock %}

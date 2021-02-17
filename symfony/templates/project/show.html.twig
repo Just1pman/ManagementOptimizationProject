@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "project/macros.html.twig" as forms %}
+
 {% block title %}Project{% endblock %}
 
 {% block body %}
@@ -25,7 +27,7 @@
             </tr>
             <tr>
                 <th>PeriodEnd</th>
-                <td>{{ project.periodEnd }}</td>
+                <td>{{ project.periodEnd ? project.periodStart|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Description</th>
