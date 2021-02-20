@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,11 +61,6 @@ class User implements UserInterface
     private $careerSummaries;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVerified = false;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
@@ -79,26 +75,38 @@ class User implements UserInterface
      */
     private $technicalExperiences;
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     * @return $this
+     */
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new DateTime();
+
+        if ($this->getUpdatedAt() === null) {
+            $this->setUpdatedAt();
+        }
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    /**
+     * @ORM\PreUpdate()
+     * @return $this
+     */
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new DateTime();
 
         return $this;
     }
@@ -272,26 +280,6 @@ class User implements UserInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getIsVerified(): ?bool
-    {
-        return $this->isVerified;
     }
 
     public function addSpokenLanguage(SpokenLanguage $spokenLanguage): self

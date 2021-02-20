@@ -24,27 +24,37 @@ class PersonalData
     private $user;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateOfBirth;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $maritalStatus;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $gender;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $about;
 
@@ -70,7 +80,7 @@ class PersonalData
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
 
@@ -121,6 +131,30 @@ class PersonalData
     public function setAbout(string $about): self
     {
         $this->about = $about;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
 
         return $this;
     }

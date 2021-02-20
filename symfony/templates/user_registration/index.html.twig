@@ -118,25 +118,18 @@
     {{ form_start(form) }}
     <div class="container">
 
-        <section class="education mb-3">
-            <h2 class="user-register__title text-center">Education</h2>
-            <div class="w-100" id="education_list"
-                 data-prototype="{{ _self.education_prototype(form.education.vars.prototype)|e('html_attr') }}">
-                {% for row in form.education %}
-                    <div class="panel panel-form">
-
-                        <div class="panel-body row mb-4">
-                            {{ _self.education_prototype(row) }}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-
         <section class="personal-data mb-3">
             <h2 class="user-register__title text-center">Personal data</h2>
             <div class="personal-data__wrapper">
                 <div class="personal-data--form row">
+                    <div class="form-group col-md-6 col-lg-6">
+                        {{ form_row(form.personalData.name) }}
+                    </div>
+
+                    <div class="form-group col-md-6 col-lg-6">
+                        {{ form_row(form.personalData.surname) }}
+                    </div>
+
                     <div class="form-group col-md-6 col-lg-3">
                         {{ form_row(form.personalData.dateOfBirth) }}
                     </div>
@@ -157,6 +150,21 @@
                         {{ form_row(form.personalData.about) }}
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="education mb-3">
+            <h2 class="user-register__title text-center">Education</h2>
+            <div class="w-100" id="education_list"
+                 data-prototype="{{ _self.education_prototype(form.education.vars.prototype)|e('html_attr') }}">
+                {% for row in form.education %}
+                    <div class="panel panel-form">
+
+                        <div class="panel-body row mb-4">
+                            {{ _self.education_prototype(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </section>
 
