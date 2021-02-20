@@ -25,7 +25,7 @@ class PersonalDataType extends AbstractType
             ->add('maritalStatus', ChoiceType::class, [
                 'choices' => [
                     'Married' => 'married',
-                    'Single' => 'Single',
+                    'Single' => 'single',
                 ]
             ])
             ->add('gender', ChoiceType::class, [
