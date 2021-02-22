@@ -37,9 +37,6 @@ class ProjectType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('description')
-            ->add('role',
-//                'class' => Project::class
-            )
             ->add('technologies', CollectionType::class, [
                     'entry_type' => TechnologyType::class,
                     'allow_add' => true,

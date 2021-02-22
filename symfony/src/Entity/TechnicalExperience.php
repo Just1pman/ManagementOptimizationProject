@@ -33,19 +33,9 @@ class TechnicalExperience
     private $skills;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $experienceTerm;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $level;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $lastYearUsed;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="technicalExperiences")
@@ -62,18 +52,6 @@ class TechnicalExperience
         return $this->id;
     }
 
-    public function getExperienceTerm(): ?int
-    {
-        return $this->experienceTerm;
-    }
-
-    public function setExperienceTerm(int $experienceTerm): self
-    {
-        $this->experienceTerm = $experienceTerm;
-
-        return $this;
-    }
-
     public function getLevel(): ?string
     {
         return $this->level;
@@ -82,18 +60,6 @@ class TechnicalExperience
     public function setLevel(string $level): self
     {
         $this->level = $level;
-
-        return $this;
-    }
-
-    public function getLastYearUsed(): ?int
-    {
-        return $this->lastYearUsed;
-    }
-
-    public function setLastYearUsed(int $lastYearUsed): self
-    {
-        $this->lastYearUsed = $lastYearUsed;
 
         return $this;
     }

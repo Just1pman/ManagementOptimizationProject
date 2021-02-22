@@ -31,14 +31,8 @@ class TechnicalExperienceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('experienceTerm', ChoiceType::class, [
-                'choices' => $this->getYears(1990),
-            ])
             ->add('level', ChoiceType::class, [
                 'choices' => $this->experience::LEVEL
-            ])
-            ->add('lastYearUsed', ChoiceType::class, [
-                'choices' => $this->getYears(1990),
             ])
             ->add('skills', ChoiceType::class, [
                 'choices' => $this->skillService->getSkillCategory(),

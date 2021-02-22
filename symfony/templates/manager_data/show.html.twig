@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ManagerData{% endblock %}
+
+{% block body %}
+    <h1>ManagerData</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ manager_datum.id }}</td>
+            </tr>
+            <tr>
+                <th>UserRole</th>
+                <td>{{ manager_datum.userRole }}</td>
+            </tr>
+            <tr>
+                <th>UserSalary</th>
+                <td>{{ manager_datum.userSalary }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('manager_data_index') }}">back to list</a>
+
+    <a href="{{ path('manager_data_edit', {'id': manager_datum.id}) }}">edit</a>
+
+    {{ include('manager_data/_delete_form.html.twig') }}
+{% endblock %}

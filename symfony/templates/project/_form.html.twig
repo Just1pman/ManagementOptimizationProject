@@ -37,13 +37,6 @@
     {{ form_errors(form.description) }}
 </div>
 
-<div class="form-group col-lg-3">
-    {{ form_help(form.role) }}
-    {{ form_label(form.role) }}
-    {{ form_widget(form.role) }}
-    {{ form_errors(form.role) }}
-</div>
-
 <section class="technical-experience mb-3">
     <div class="w-100" id="technology_list"
          data-prototype="{{ forms.technologies_prototype(form.technologies.vars.prototype)|e('html_attr') }}

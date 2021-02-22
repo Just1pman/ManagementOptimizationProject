@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ManagerData{% endblock %}
+
+{% block body %}
+    <h1>Create new ManagerData</h1>
+
+    {{ include('manager_data/_form.html.twig') }}
+
+    <a href="{{ path('manager_data_index') }}">back to list</a>
+{% endblock %}

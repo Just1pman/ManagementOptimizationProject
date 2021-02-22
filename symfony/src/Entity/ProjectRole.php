@@ -25,11 +25,6 @@ class ProjectRole
      */
     private $title;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="role")
-     */
-    private $projects;
-
     public function __toString()
     {
         return $this->title;
@@ -53,36 +48,6 @@ class ProjectRole
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->setRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->removeElement($project)) {
-            // set the owning side to null (unless already changed)
-            if ($project->getRole() === $this) {
-                $project->setRole(null);
-            }
-        }
 
         return $this;
     }

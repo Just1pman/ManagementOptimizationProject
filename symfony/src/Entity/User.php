@@ -41,7 +41,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=PersonalData::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=PersonalData::class, mappedBy="user")
      */
     private $personalData;
 
@@ -74,6 +74,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=TechnicalExperience::class, mappedBy="user", cascade="persist")
      */
     private $technicalExperiences;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ManagerData::class, mappedBy="user")
+     */
+    private $managerData;
 
     public function getCreatedAt(): ?DateTime
     {
@@ -330,6 +335,28 @@ class User implements UserInterface
                 $technicalExperience->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getManagerData(): ?ManagerData
+    {
+        return $this->managerData;
+    }
+
+    public function setManagerData(?ManagerData $managerData): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($managerData === null && $this->managerData !== null) {
+            $this->managerData->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($managerData !== null && $managerData->getUser() !== $this) {
+            $managerData->setUser($this);
+        }
+
+        $this->managerData = $managerData;
 
         return $this;
     }

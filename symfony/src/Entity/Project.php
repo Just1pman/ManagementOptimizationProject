@@ -40,11 +40,6 @@ class Project
     private $periodEnd;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ProjectRole::class, inversedBy="projects")
-     */
-    private $role;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Technology::class, cascade="persist")
      */
     private $technologies;
@@ -108,18 +103,6 @@ class Project
     public function setPeriodEnd(\DateTimeInterface $periodEnd): self
     {
         $this->periodEnd = $periodEnd;
-
-        return $this;
-    }
-
-    public function getRole(): ?ProjectRole
-    {
-        return $this->role;
-    }
-
-    public function setRole(?ProjectRole $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

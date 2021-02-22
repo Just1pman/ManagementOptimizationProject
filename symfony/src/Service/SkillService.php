@@ -45,7 +45,4 @@ class SkillService
         }
         return $skills;
     }
-
-
-
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterUserType;
+use App\Form\RegistrationFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/", name="user_index", methods={"GET"})
      * @param UserRepository $userRepository
      * @return Response
@@ -52,7 +54,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * Require ROLE_ADMIN for only this controller method.
+     * Require ROLE_USER for only this controller method.
      * @IsGranted("ROLE_USER")
      *
      * @Route("/register", name="user_register", methods={"GET","POST"})
@@ -105,6 +107,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
@@ -112,7 +115,7 @@ class UserController extends AbstractController
     public function new(Request $request): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -130,6 +133,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{id}", name="user_show", methods={"GET"})
      * @param User $user
      * @return Response
@@ -142,6 +146,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_MANAGER")
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
@@ -149,7 +154,7 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -158,13 +163,14 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('user_registration/index.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user
