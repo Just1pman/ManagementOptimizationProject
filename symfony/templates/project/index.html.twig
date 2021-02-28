@@ -1,23 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Project index{% endblock %}
+{% block title %}Projects{% endblock %}
 
 {% block content %}
     <div class="container">
-        {# <div class="row flex-wrap"> #}
-        {# {% for project in projects %} #}
-        {# <a class="card col-md-3 mb-2" href="{{ path('project_show', {'id': project.id}) }}"> #}
-        {# <div class=""> #}
-        {# <div class="card-body"> #}
-        {# <h5 class="card-title">{{ project.internalTitle }}</h5> #}
-        {# <h6 class="card-subtitle mb-2 text-muted">{{ project.description }}</h6> #}
-        {# <p class="card-text">{{ project.description }}</p> #}
-        {# <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a> #}
-        {# </div> #}
-        {# </div> #}
-        {# </a> #}
-        {# {% endfor %} #}
-        {# </div> #}
+
         {% if is_granted('ROLE_ADMIN') %}
             <div class="my-3">
                 <a class="btn btn-primary" href="{{ path('project_new') }}">Create new</a>

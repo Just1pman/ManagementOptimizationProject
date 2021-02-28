@@ -79,7 +79,7 @@ class SkillController extends AbstractController
         $form = $this->createForm(SkillType::class, $skill);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('skill_index');

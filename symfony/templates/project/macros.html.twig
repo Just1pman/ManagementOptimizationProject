@@ -1,9 +1,0 @@
-{% macro technologies_prototype(technologies) %}
-    <div class="form-group col-sm-6">
-        {{ form_help(technologies.title) }}
-        {{ form_label(technologies.title) }}
-        {{ form_widget(technologies.title) }}
-        {{ form_errors(technologies.title) }}
-    </div>
-    <div class="informations_error">{{ form_errors(technologies) }}</div>
-{% endmacro %}

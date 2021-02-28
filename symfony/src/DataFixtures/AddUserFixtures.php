@@ -4,14 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\PersonalData;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AddUserFixtures extends Fixture
 {
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     const USER_COUNT = 20;
 

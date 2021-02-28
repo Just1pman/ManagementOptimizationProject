@@ -2,10 +2,12 @@
 
 {% block title %}New Skill{% endblock %}
 
-{% block body %}
-    <h2 class="user-register__title text-center">Create new Skill</h2>
+{% block content %}
     <div class="container">
-        {{ include('skill/_form.html.twig') }}
-        <a class="" href="{{ path('skill_index') }}">back to list</a>
+        <h2 class="user-register__title text-center">Create new Skill</h2>
+        <div class="container">
+            {{ include('skill/_form.html.twig') }}
+            <a class="btn btn-primary" href="{{ path('skill_index') }}">back</a>
+        </div>
     </div>
 {% endblock %}

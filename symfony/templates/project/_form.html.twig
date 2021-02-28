@@ -1,51 +1,49 @@
-{% import "project/macros.html.twig" as forms %}
-
 {{ form_start(form) }}
+<div class="row">
+    <div class="form-group col-6">
+        {{ form_help(form.internalTitle) }}
+        {{ form_label(form.internalTitle) }}
+        {{ form_widget(form.internalTitle) }}
+        {{ form_errors(form.internalTitle) }}
+    </div>
 
-<div class="form-group">
-    {{ form_help(form.internalTitle) }}
-    {{ form_label(form.internalTitle) }}
-    {{ form_widget(form.internalTitle) }}
-    {{ form_errors(form.internalTitle) }}
-</div>
+    <div class="form-group col-6">
+        {{ form_help(form.externalTitle) }}
+        {{ form_label(form.externalTitle) }}
+        {{ form_widget(form.externalTitle) }}
+        {{ form_errors(form.externalTitle) }}
+    </div>
 
-<div class="form-group">
-    {{ form_help(form.externalTitle) }}
-    {{ form_label(form.externalTitle) }}
-    {{ form_widget(form.externalTitle) }}
-    {{ form_errors(form.externalTitle) }}
-</div>
+    <div class="form-group col-12">
+        {{ form_help(form.description) }}
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
 
-<div class="form-group">
-    {{ form_help(form.periodStart) }}
-    {{ form_label(form.periodStart) }}
-    {{ form_widget(form.periodStart) }}
-    {{ form_errors(form.periodStart) }}
-</div>
+    <div class="form-group col-4">
+        {{ form_help(form.periodStart) }}
+        {{ form_label(form.periodStart) }}
+        {{ form_widget(form.periodStart) }}
+        {{ form_errors(form.periodStart) }}
+    </div>
 
-<div class="form-group">
-    {{ form_help(form.periodEnd) }}
-    {{ form_label(form.periodEnd) }}
-    {{ form_widget(form.periodEnd) }}
-    {{ form_errors(form.periodEnd) }}
-</div>
+    <div class="form-group col-4">
+        {{ form_help(form.periodEnd) }}
+        {{ form_label(form.periodEnd) }}
+        {{ form_widget(form.periodEnd) }}
+        {{ form_errors(form.periodEnd) }}
+    </div>
 
-<div class="form-group">
-    {{ form_help(form.description) }}
-    {{ form_label(form.description) }}
-    {{ form_widget(form.description) }}
-    {{ form_errors(form.description) }}
-</div>
-
-<div class="form-group">
-    {{ form_help(form.user) }}
-    {{ form_label(form.user) }}
-    {{ form_widget(form.user) }}
-    {{ form_errors(form.user) }}
-</div>
-
-<div class="form-group col-lg-3">
-    {{ form_row(form.save) }}
+    <div class="form-group col-4">
+        {{ form_help(form.user) }}
+        {{ form_label(form.user) }}
+        {{ form_widget(form.user) }}
+        {{ form_errors(form.user) }}
+    </div>
+    <div class="form-group col-lg-3">
+        {{ form_row(form.save) }}
+    </div>
 </div>
 
 {{ form_end(form, {'render_rest': false}) }}
