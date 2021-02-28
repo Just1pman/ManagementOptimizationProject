@@ -40,18 +40,18 @@ class Project
     private $periodEnd;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Technology::class, cascade="persist")
-     */
-    private $technologies;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="project", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
-        $this->technologies = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,7 +88,7 @@ class Project
         return $this->periodStart;
     }
 
-    public function setPeriodStart(\DateTimeInterface$periodStart): self
+    public function setPeriodStart(\DateTimeInterface $periodStart): self
     {
         $this->periodStart = $periodStart;
 
@@ -107,33 +107,6 @@ class Project
         return $this;
     }
 
-    /**
-     * @return Collection|Skill[]
-     */
-    public function getTechnologies(): Collection
-    {
-        return $this->technologies;
-    }
-// если технология содержится в базе, тогда не добавляем её в базу, а просто добавляем её id
-    public function addTechnology($technology): self
-    {
-//        $technologyRepository = $this->em->getRepository(Technology::class);
-//
-//
-        if (!$this->technologies->contains($technology) ) {
-            $this->technologies[] = $technology;
-        }
-
-        return $this;
-    }
-
-    public function removeTechnology($technology): self
-    {
-        $this->technologies->removeElement($technology);
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -142,6 +115,30 @@ class Project
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }

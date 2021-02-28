@@ -2,8 +2,8 @@
 
 {% block title %}Skill index{% endblock %}
 
-{% block body %}
-    <div class="container">
+{% block content %}
+    <div class="container mt-3">
         <h1 class="user-register__title text-center">Skills</h1>
         <table class="table">
             <thead>
@@ -31,6 +31,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('skill_new') }}">Create new</a>
+        <a class="btn btn-primary" href="{{ path('skill_new') }}">Create new</a>
     </div>
 {% endblock %}

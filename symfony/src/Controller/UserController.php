@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
+use Dompdf\Dompdf as Dompdf;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,6 +55,42 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/my_profile", name="my_profile", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function myProfile(UserRepository $userRepository): Response
+    {
+        $data = $this->getUser()->getUsername();
+        $user = $userRepository->findOneBy(['email' => "$data"]);
+
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+
+    /**
+     * @Route ("/summary/{id}", name="user_summary", methods={"GET","POST"})
+     * @param User $user
+     * @return Response
+     */
+    public function userSummary(User $user): Response
+    {
+        $dompdf = new Dompdf();
+        $dompdf->setPaper('A4');
+        $html = $this->render('user/summary.html.twig', ['user' => $user]);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        $dompdf->stream('Summary.pdf',
+            [
+                'Attachment' => 0,
+            ]);
+
+        return new Response('');
+    }
+
+    /**
      * Require ROLE_USER for only this controller method.
      * @IsGranted("ROLE_USER")
      *
@@ -72,10 +109,6 @@ class UserController extends AbstractController
 
         $data = $this->getUser()->getUsername();
         $user = $userRepository->findOneBy(['email' => "$data"]);
-
-        if ($user === null) {
-            throw new Exception('User is not found');
-        }
 
         $this
             ->addTemporaryCollection($user->getEducation(), $temporaryEducationCollection)
@@ -115,7 +148,7 @@ class UserController extends AbstractController
     public function new(Request $request): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -154,12 +187,30 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
+        $temporaryEducationCollection = new ArrayCollection();
+        $temporaryLanguageCollection = new ArrayCollection();
+        $temporaryCareerCollection = new ArrayCollection();
+        $temporaryTechnicalExperienceCollection = new ArrayCollection();
+
+        $this
+            ->addTemporaryCollection($user->getEducation(), $temporaryEducationCollection)
+            ->addTemporaryCollection($user->getSpokenLanguage(), $temporaryLanguageCollection)
+            ->addTemporaryCollection($user->getCareerSummaries(), $temporaryCareerCollection)
+            ->addTemporaryCollection($user->getTechnicalExperiences(), $temporaryTechnicalExperienceCollection);
+
         $form = $this->createForm(RegisterUserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
 
+            $this
+                ->removeFromCollection($temporaryEducationCollection, $user->getEducation(), $em)
+                ->removeFromCollection($temporaryLanguageCollection, $user->getSpokenLanguage(), $em)
+                ->removeFromCollection($temporaryCareerCollection, $user->getCareerSummaries(), $em)
+                ->removeFromCollection($temporaryTechnicalExperienceCollection, $user->getTechnicalExperiences(), $em);
+
+            $em->flush();
             return $this->redirectToRoute('user_index');
         }
 
@@ -170,7 +221,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user

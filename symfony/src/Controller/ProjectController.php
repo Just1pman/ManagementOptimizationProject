@@ -20,15 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
     /**
-     * Require ROLE_MANAGER for only this controller method.
-     * @IsGranted("ROLE_MANAGER")
-     */
-    public function adminDashboard()
-    {
-        $this->denyAccessUnlessGranted('ROLE_MANAGER', null, 'User tried to access a page without having ROLE_MANAGER');
-    }
-
-    /**
      * @Route("/", name="project_index", methods={"GET"})
      * @param ProjectRepository $projectRepository
      * @return Response

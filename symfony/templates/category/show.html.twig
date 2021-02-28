@@ -2,11 +2,12 @@
 
 {% block title %}Category{% endblock %}
 
-{% block body %}
-    <h1>Category</h1>
+{% block content %}
+    <div class="container">
+        <h1>Category</h1>
 
-    <table class="table">
-        <tbody>
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ category.id }}</td>
@@ -15,12 +16,15 @@
                 <th>Title</th>
                 <td>{{ category.title }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <div class="d-flex">
+            <a class="btn btn-success me-2" href="{{ path('category_index') }}">back</a>
 
-    <a href="{{ path('category_index') }}">back to list</a>
-
-    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('category/_delete_form.html.twig') }}
+            <a class="btn btn-primary me-2" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+            <p>
+                {{ include('category/_delete_form.html.twig') }}
+            </p>
+        </div>
+    </div>
 {% endblock %}

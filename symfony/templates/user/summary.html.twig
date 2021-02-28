@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+<style>
+    .user-role {
+        text-align: center;
+    }
+
+    .user-name {
+        text-align: center;
+    }
+
+    h2 {
+        text-transform: uppercase;
+    }
+
+    .m-left-35px {
+        margin-left: 35px;
+    }
+
+    .mb {
+        margin-bottom: 40px;
+    }
+</style>
+{% if user.managerData %}
+    <h1 class="user-role">{{ user.managerData.userRole }}</h1>
+{% endif %}
+<h2 class="user-name">{{ user.personalData.name }} {{ user.personalData.surname }}</h2>
+<h2 class="m-left-35px">personal data</h2>
+
+<table class="mb" width="250" border="" cellspacing="0" cellpadding="4">
+    <tr>
+        <td class="text-uppercase">Gender</td>
+        <td>{{ user.personalData.gender ? user.personalData.gender|capitalize : 'empty' }}</td>
+    </tr>
+    <tr>
+        <td>Date of birth</td>
+        <td>{{ user.personalData.dateOfBirth|date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <td>Marital status</td>
+        <td>{{ user.personalData.maritalStatus|capitalize }}</td>
+    </tr>
+</table>
+
+
+<h2 class="m-left-35px">spoken language</h2>
+<table class="mb" width="100%" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+            <b>Language</b>
+        </td>
+        <td><b>Level (Beginner/
+                Elementary/
+                Intermediate/
+                Upper-Intermediate/
+                Advanced/
+                Proficiency)</b></td>
+    </tr>
+    {% for language in user.spokenLanguage %}
+
+        <tr>
+            <td>{{ language.language|capitalize }}</td>
+            <td>{{ language.level|capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+<h2 class="m-left-35px">education</h2>
+<table class="mb" width="100%" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+            <b>Title</b>
+        </td>
+        <td>
+            <b>Date Start</b>
+        </td>
+        <td>
+            <b>Date End</b>
+        </td>
+        <td>
+            <b>Disciplines</b>
+        </td>
+        <td>
+            <b>Result</b>
+        </td>
+    </tr>
+    {% for education in user.education %}
+        <tr>
+            <td>{{ education.title|capitalize }}</td>
+
+
+            <td>{{ education.dateStart|date('d-m-y') }}</td>
+
+            <td>{{ education.dateEnd|date('d-m-y') }}</td>
+
+            <td>{{ education.disciplines|capitalize }}</td>
+
+            <td>{{ education.result|capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+<h2 class="m-left-35px">career summary</h2>
+<table class="mb" width="100%" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+            <b>Date Start</b>
+        </td>
+        <td>
+            <b>Date End</b>
+        </td>
+        <td>
+            <b>Position</b>
+        </td>
+        <td>
+            <b>Job Description</b>
+        </td>
+    </tr>
+    {% for summary in user.careerSummaries %}
+        <tr>
+            <td>{{ summary.dateStart|date('d-m-y') }}</td>
+            <td>{{ summary.dateEnd|date('d-m-y') }}</td>
+            <td>{{ summary.position|capitalize }}</td>
+            <td>{{ summary.jobDescription|capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+<h2 class="m-left-35px">TECHNICAL EXPERIENCE</h2>
+<table class="mb" width="100%" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+            <b>Skill</b>
+        </td>
+        <td>
+            <b>Level</b>
+        </td>
+    </tr>
+    {% for exp in user.technicalExperiences %}
+        <tr>
+            <td>{{ exp.skills|title }}</td>
+            <td>{{ exp.level|capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h2 class="m-left-35px">projects</h2>
+<table class="mb" width="100%" border="1" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+            <b>Skill</b>
+        </td>
+        <td>
+            <b>Level</b>
+        </td>
+    </tr>
+    {% for exp in user.technicalExperiences %}
+        <tr>
+            <td>{{ exp.skills|title }}</td>
+            <td>{{ exp.level|capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+</body>
+</html>

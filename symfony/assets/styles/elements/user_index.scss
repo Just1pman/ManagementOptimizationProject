@@ -10,3 +10,16 @@
   min-height: 1px;
   padding: 1rem;
 }
+
+.user-label {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  right: 25px;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  border-radius: 50%;
+  /* opacity: 0; */
+  //animation: 1.75s linear infinite spinner-grow;
+}

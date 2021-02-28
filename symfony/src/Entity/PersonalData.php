@@ -92,7 +92,7 @@ class PersonalData
         return $this->maritalStatus;
     }
 
-    public function setMaritalStatus(string $maritalStatus): self
+    public function setMaritalStatus(?string $maritalStatus): self
     {
         $this->maritalStatus = $maritalStatus;
 
@@ -104,7 +104,7 @@ class PersonalData
         return $this->gender;
     }
 
-    public function setGender(string $gender): self
+    public function setGender(?string $gender): self
     {
         $this->gender = $gender;
 
@@ -116,7 +116,7 @@ class PersonalData
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 
@@ -128,7 +128,7 @@ class PersonalData
         return $this->about;
     }
 
-    public function setAbout(string $about): self
+    public function setAbout(?string $about): self
     {
         $this->about = $about;
 

@@ -5,36 +5,48 @@
 {% block content %}
     <div class="container">
         {% if is_granted('ROLE_ADMIN') %}
-            <div class="mb-3">
+            <div class="my-3">
                 <a class="btn btn-primary" href="{{ path('user_new') }}">Create new</a>
             </div>
         {% endif %}
-        {% dump %}
         <div class="users">
             <div class="users--wrapper flex-wrap">
                 {% for user in users %}
                     <div class="users-card card col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
                         <div class="d-flex flex-column align-items-center text-center">
-                            {% if user.personalData.gender == 'male' %}
-                                <img src="{{ asset('build/images/male.png') }}" alt="Admin"
-                                     class="rounded-circle"
-                                     width="150">
-                            {% elseif user.personalData.gender == null %}
-                                <img src="{{ asset('build/images/anonym.png') }}" alt="anonym"
-                                     class="rounded-circle"
-                                     width="150">
-                            {% else %}
-                                <img src="{{ asset('build/images/female.png') }}" alt="Admin"
-                                     class="rounded-circle"
-                                     width="150">
+                            {% if app.user == user %}
+                                <div class="user-label text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            {% endif %}
+
+                            {% if user.personalData %}
+                                {% if user.personalData.gender == 'male' %}
+                                    <img src="{{ asset('build/images/male.png') }}" alt="Admin"
+                                         class="rounded-circle"
+                                         width="150">
+                                {% elseif user.personalData.gender == null %}
+                                    <img src="{{ asset('build/images/anonym.png') }}" alt="anonym"
+                                         class="rounded-circle"
+                                         width="150">
+                                {% else %}
+                                    <img src="{{ asset('build/images/female.png') }}" alt="Admin"
+                                         class="rounded-circle"
+                                         width="150">
+                                {% endif %}
+
                             {% endif %}
                             <div class="mt-3">
-                                <h4>{{ user.personalData.surname }}</h4>
+                                <h4>{{ user.personalData.surname ?? 'empty' }}</h4>
                                 <p class="text-secondary mb-1 text-muted font-size-sm">
                                     {{ user.managerData ? user.managerData.userRole : 'Role: empty' }}
                                 </p>
                                 <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
 
+                                {% if is_granted('ROLE_MANAGER') %}
+                                    <a class="btn btn-outline-success"
+                                       href="{{ path('user_summary', {'id': user.id}) }}">Summary</a>
+                                {% endif %}
                                 <a class="btn btn-dark" href="{{ path('user_show', {'id': user.id}) }}">show</a>
                                 {% if is_granted('ROLE_MANAGER') %}
                                     <a class="btn btn-success" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
@@ -45,16 +57,5 @@
                 {% endfor %}
             </div>
         </div>
-
-
-        {# <td>{{ user.id }}</td> #}
-        {# <td>{{ user.email }}</td> #}
-        {# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-        {# <td>{{ user.password }}</td> #}
-        {# <td> #}
-        {# <a href="{{ path('user_show', {'id': user.id}) }}">show</a> #}
-        {# <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a> #}
-
-
     </div>
 {% endblock %}

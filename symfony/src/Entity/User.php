@@ -41,7 +41,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=PersonalData::class, mappedBy="user")
+     * @ORM\OneToOne(targetEntity=PersonalData::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $personalData;
 
@@ -80,38 +80,31 @@ class User implements UserInterface
      */
     private $managerData;
 
-    public function getCreatedAt(): ?DateTime
+    /**
+     * @ORM\ManyToMany(targetEntity=Project::class, mappedBy="user")
+     */
+    private $project;
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @ORM\PrePersist
-     * @return $this
-     */
-    public function setCreatedAt(): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = new DateTime();
-
-        if ($this->getUpdatedAt() === null) {
-            $this->setUpdatedAt();
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTime
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @ORM\PreUpdate()
-     * @return $this
-     */
-    public function setUpdatedAt(): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = new DateTime();
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -122,6 +115,7 @@ class User implements UserInterface
         $this->careerSummaries = new ArrayCollection();
         $this->spokenLanguage = new ArrayCollection();
         $this->technicalExperiences = new ArrayCollection();
+        $this->project = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -357,6 +351,33 @@ class User implements UserInterface
         }
 
         $this->managerData = $managerData;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProject(): Collection
+    {
+        return $this->project;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->project->contains($project)) {
+            $this->project[] = $project;
+            $project->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->project->removeElement($project)) {
+            $project->removeUser($this);
+        }
 
         return $this;
     }

@@ -32,7 +32,7 @@ class TechnicalExperienceType extends AbstractType
     {
         $builder
             ->add('level', ChoiceType::class, [
-                'choices' => $this->experience::LEVEL
+                'choices' => $this->experience::LEVEL,
             ])
             ->add('skills', ChoiceType::class, [
                 'choices' => $this->skillService->getSkillCategory(),

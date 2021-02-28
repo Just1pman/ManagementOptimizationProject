@@ -35,14 +35,15 @@ class SkillService
         $skills = [];
         foreach ($this->categoryRepository->getAllTitle() as $item) {
             $category = $this->categoryRepository->findOneBy(['title' => $item]);
-            $categoryId = $category->getId();
-            $skillsCategory = $this->skillRepository->findBy(['category' => $categoryId]);
+            $skillsCategory = $this->skillRepository->findBy(['category' => $category->getId()]);
             $skillsCollection = [];
             foreach ($skillsCategory as $skill) {
                 $skillsCollection[$skill->getTitle()] = $skill->getTitle();
             }
+            ksort($skillsCollection);
             $skills[$item] = $skillsCollection;
         }
+        ksort($skills);
         return $skills;
     }
 }

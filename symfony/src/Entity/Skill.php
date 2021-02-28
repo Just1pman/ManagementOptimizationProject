@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SkillRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass=SkillRepository::class)
@@ -24,6 +25,7 @@ class Skill
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="skills")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private ?Category $category;
 

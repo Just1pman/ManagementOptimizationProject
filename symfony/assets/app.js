@@ -36,7 +36,7 @@ function addNewForm($Holder, $button) {
     let index = $Holder.data('index');
     let newForm = prototype;
     newForm = newForm.replace(/__name__/g, index);
-    $Holder.data('index', index++);
+    $Holder.data('index', index+1);
     const $panel = $('<div class="panel panel-form"><div class="panel-heading"></div></div>');
     const $panelBody = $('<div class="panel-body row mb-3"></div>').append(newForm);
     $panel.append($panelBody);

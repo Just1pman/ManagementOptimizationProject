@@ -3,30 +3,7 @@
 {% block title %}User{% endblock %}
 
 {% block content %}
-    {# <h1>User</h1> #}
-
-    {# <table class="table"> #}
-    {# <tbody> #}
-    {# <tr> #}
-    {# <th>Id</th> #}
-    {# <td>{{ user.id }}</td> #}
-    {# </tr> #}
-    {# <tr> #}
-    {# <th>Email</th> #}
-    {# <td>{{ user.email }}</td> #}
-    {# </tr> #}
-    {# <tr> #}
-    {# <th>Roles</th> #}
-    {# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-    {# </tr> #}
-    {# <tr> #}
-    {# <th>Password</th> #}
-    {# <td>{{ user.password }}</td> #}
-    {# </tr> #}
-    {# </tbody> #}
-    {# </table> #}
     {% dump %}
-
     <div class="show-inner">
         <div class="container pb-4">
             <div class="main-body">
@@ -34,8 +11,9 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="main-breadcrumb">
                     <ol class="show-breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ path('user_index') }}">User</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ user.personalData.surname }}</li>
+                        <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Team</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">{{ user.personalData.surname ?? 'empty' }}</li>
                     </ol>
                 </nav>
                 <!-- /Breadcrumb -->
@@ -45,24 +23,29 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    {% if user.personalData.gender == 'male' %}
-                                        <img src="{{ asset('build/images/male.png') }}" alt="male"
-                                             class="rounded-circle"
-                                             width="150">
-                                    {% elseif user.personalData.gender == null %}
-                                        <img src="{{ asset('build/images/anonym.png') }}" alt="anonym"
-                                             class="rounded-circle"
-                                             width="150">
-                                    {% else %}
-                                        <img src="{{ asset('build/images/female.png') }}" alt="famale"
-                                             class="rounded-circle"
-                                             width="150">
+                                    {% if user.personalData %}
+                                        {% if user.personalData.gender == 'male' %}
+                                            <img src="{{ asset('build/images/male.png') }}" alt="male"
+                                                 class="rounded-circle"
+                                                 width="150">
+                                        {% elseif user.personalData.gender == null %}
+                                            <img src="{{ asset('build/images/anonym.png') }}" alt="anonym"
+                                                 class="rounded-circle"
+                                                 width="150">
+                                        {% else %}
+                                            <img src="{{ asset('build/images/female.png') }}" alt="famale"
+                                                 class="rounded-circle"
+                                                 width="150">
+                                        {% endif %}
                                     {% endif %}
 
                                     <div class="mt-3">
-                                        <h4>{{ user.personalData.surname }}</h4>
-                                        <p class="text-secondary mb-1">{{ user.managerData ? user.managerData.userRole : 'Role: empty' }}</p>
-
+                                        <h4>{{ user.personalData.surname ?? 'empty' }}</h4>
+                                        <p class="text-secondary mb-2">{{ user.managerData ? user.managerData.userRole : 'Role: empty' }}</p>
+                                        {% if app.user == user %}
+                                            <a class="btn btn-success"
+                                               href="{{ path('user_summary', {'id': user.id}) }}">Summary</a>
+                                        {% endif %}
                                         {% if is_granted('ROLE_MANAGER') %}
                                             <a class="btn btn-success" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                                         {% endif %}
@@ -82,7 +65,7 @@
                                         <h6 class="mb-0">Full Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary mb-0">
-                                        {{ user.personalData.name|title }} {{ user.personalData.surname|title }}
+                                        {{ user.personalData ? user.personalData.name : 'empty' }} {{ user.personalData ? user.personalData.surname|title }}
                                     </div>
                                 </div>
                                 <hr>
@@ -91,7 +74,7 @@
                                         <h6 class="mb-0">Gender</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ user.personalData.gender|capitalize }}
+                                        {{ user.personalData ? user.personalData.gender|capitalize : 'empty' }}
                                     </div>
                                 </div>
                                 <hr>
@@ -100,7 +83,7 @@
                                         <h6 class="mb-0">Date of Birth</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ user.personalData.dateOfBirth|date('d-m-Y') }}
+                                        {{ user.personalData ? user.personalData.dateOfBirth|date('d-m-Y') : 'empty' }}
                                     </div>
                                 </div>
                                 <hr>
@@ -109,7 +92,7 @@
                                         <h6 class="mb-0">Marital status</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ user.personalData.maritalStatus ? user.personalData.maritalStatus|capitalize : 'empty' }}
+                                        {{ user.personalData ? user.personalData.maritalStatus|capitalize : 'empty' }}
                                     </div>
                                 </div>
                                 <hr>
@@ -124,7 +107,7 @@
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Mobile</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">{{ user.personalData.phone }}</div>
+                                    <div class="col-sm-9 text-secondary">{{ user.personalData ? user.personalData.phone : 'empty' }}</div>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +148,9 @@
                                                 </div>
                                                 <div class="col-sm-9 text-secondary">{{ education.dateEnd|date('d-m-Y') }}</div>
                                             </div>
-                                            <hr>
+                                            {% if  not loop.last %}
+                                                <hr>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -185,7 +170,9 @@
                                             </div>
                                             <div class="col-sm-9 text-secondary">{{ language.level }}</div>
                                         </div>
-                                        <hr>
+                                        {% if  not loop.last %}
+                                            <hr>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -224,7 +211,9 @@
                                                 </div>
                                                 <div class="col-sm-9 text-secondary">{{ career.jobDescription }}</div>
                                             </div>
-                                            <hr>
+                                            {% if  not loop.last %}
+                                                <hr>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -241,7 +230,9 @@
                                                 </div>
                                                 <div class="col-sm-9 text-secondary">{{ exp.level }}</div>
                                             </div>
-                                            <hr>
+                                            {% if  not loop.last %}
+                                                <hr>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -252,13 +243,6 @@
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h6 class="d-flex align-items-center mb-4">Manager Data</h6>
-
-                                            {# <div class="row"> #}
-                                            {# <div class="col-sm-3"> #}
-                                            {# <small class="mb-0">Salary</small> #}
-                                            {# </div> #}
-                                            {# <div class="col-sm-9 text-secondary">{{ user.managerData.userSalary }}</div> #}
-                                            {# </div> #}
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <p>Salary</p>
@@ -269,19 +253,16 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            <a class="btn btn-success me-2" href="{{ path('user_index') }}">back</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-
+            <div class="d-flex justify-content-end">
                 {% if is_granted('ROLE_MANAGER') %}
                     {{ include('user/_delete_form.html.twig') }}
                 {% endif %}
+                <a class="btn btn-success mx-2" href="{{ path('user_index') }}">back</a>
             </div>
         </div>
     </div>
-
-
 {% endblock %}

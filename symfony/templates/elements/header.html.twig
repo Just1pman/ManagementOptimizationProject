@@ -2,11 +2,11 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid py-2">
-                    {% block logoHeaderLink %}
-                        <a class="logo-icon main-header__logo me-lg-3"><img width="50" height="auto"
-                                                                            src="{{ asset('build/images/cube.svg') }}"
-                                                                            alt="logo"></a>
-                    {% endblock logoHeaderLink %}
+                {% block logoHeaderLink %}
+                    <a href="{{ 'homepage' }}" class="logo-icon main-header__logo me-lg-3"><img width="50" height="auto"
+                                                                                                src="{{ asset('build/images/cube.svg') }}"
+                                                                                                alt="logo"></a>
+                {% endblock logoHeaderLink %}
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -15,16 +15,17 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
-{#                         <li class="nav-item">#}
-{#                         <a class="nav-link active" aria-current="page" href="#">Home</a>#}
-{#                         </li>#}
                         {% if is_granted('ROLE_USER') and not is_granted('ROLE_MANAGER') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_register') }}">Registration</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('my_profile') }}">My Profile</a>
+                            </li>
+
                         {% endif %}
 
-                        {% if is_granted('ROLE_MANAGER') and not is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_USER') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_index') }}">Team</a>
                             </li>
@@ -36,15 +37,17 @@
                             </li>
                         {% endif %}
 
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" href="#">Link</a>#}
-{#                        </li>#}
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" href="#">Link</a>#}
-{#                        </li>#}
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" href="#">Link</a>#}
-{#                        </li>#}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('project_index') }}">Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('skill_index') }}">Skills</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('category_index') }}">Category</a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav mb-lg-0">
                         {% if app.user %}
